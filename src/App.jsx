@@ -7,9 +7,9 @@ function App() {
 
   return (
     <>
-      // <Page/>
-      <ImageUpload/>
-      <ImageGallery/>
+      <Page/>
+      {/* <ImageUpload/> */}
+      {/* <ImageGallery/> */}
     </>
   )
 }

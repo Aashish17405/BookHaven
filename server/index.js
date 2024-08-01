@@ -1,11 +1,11 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 
-const { Book, Image } = require('./db'); // Ensure both models are correctly imported
+const { Book, Image } = require('./db');
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -17,23 +17,49 @@ app.use(cors());
 app.use(express.json());
 
 const port = process.env.PORT || 3000;
-const mongoURI = process.env.MONGODB_URI;
+// const mongoURI = process.env.MONGODB_URI;
 
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error("MongoDB connection error: " + err));
+// mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+//   .then(() => console.log('Connected to MongoDB'))
+//   .catch(err => console.error("MongoDB connection error: " + err));
 
 app.get('/', async (req, res) => {
-  console.log('Received a GET request at /'); // Debugging line
+  console.log('Received a GET request at /');
   try {
     const books = await Book.find();
-    console.log('Books found:', books); // Debugging line
     res.json(books);
   } catch (error) {
-    console.error('Error while fetching books:', error); // Debugging line
+    console.error('Error while fetching books:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+app.post('/update-book-availability', async (req, res) => {
+  const { bookId, available } = req.body;
+
+  if (!bookId || available === undefined) {
+    return res.status(400).json({ error: 'Invalid request data' });
+  }
+
+  try {
+    const book = await Book.findByIdAndUpdate(
+      bookId,
+      { available },
+      { new: true, runValidators: true }
+    );
+
+    if (!book) {
+      return res.status(404).json({ error: 'Book not found' });
+    }
+
+    res.status(200).json(book);
+  } catch (err) {
+    console.error('Error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 
 app.get('/images', async (req, res) => {
   try {
@@ -45,7 +71,7 @@ app.get('/images', async (req, res) => {
     }));
     res.status(200).json(formattedImages);
   } catch (error) {
-    console.error('Error while fetching images:', error); // Debugging line
+    console.error('Error while fetching images:', error);
     res.status(500).send(error.message);
   }
 });
@@ -66,7 +92,7 @@ app.post('/upload', upload.single('image'), async (req, res) => {
     await newImage.save();
     res.status(201).send('Image uploaded successfully');
   } catch (error) {
-    console.error('Error while uploading image:', error); // Debugging line
+    console.error('Error while uploading image:', error);
     res.status(500).send(error.message);
   }
 });
