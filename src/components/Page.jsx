@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Book from './Book';
-
+import PopupForm from './PopupForm';
 
 function Page() {
   const [books, setBooks] = useState([]);
+  const [bookName, setBookName] = useState('');
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,26 +24,33 @@ function Page() {
     fetchData();
   }, []);
 
+  const handleIconClick = (name) => {
+    setBookName(name);
+    setInterval(() => {
+      setShowPopup(false);
+    }, 15000);
+  };
+
   const updateAvailability = (bookId, newAvailable) => {
-    setBooks(books.map(book => {
-      if (book._id === bookId) {
-        return { ...book, available: newAvailable };
-      }
-      return book;
-    }));
+    setShowPopup(true);
+    setBooks(books.map(book =>
+      book._id === bookId ? { ...book, available: newAvailable } : book
+    ));
   };
 
   return (
     <div>
+      {showPopup && <PopupForm bookName={bookName}/>}
       {books.map(book => (
         <Book
           key={book._id}
           bookId={book._id}
           name={book.name}
-          author={book.author}
           publicationYear={book.publicationYear}
+          author={book.author}
           available={book.available}
           updateAvailability={updateAvailability}
+          handleIconClick={handleIconClick}
         />
       ))}
     </div>

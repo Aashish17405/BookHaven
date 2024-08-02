@@ -20,6 +20,14 @@ const bookSchema = new mongoose.Schema({
 
 const Book = mongoose.model('Book',bookSchema);
 
+const borrowerSchema = new mongoose.Schema({
+    book: String,
+    name: String,
+    phone: Number,
+})
+
+const Borrower = mongoose.model('Borrower',borrowerSchema);
+
 module.exports = {
-    Book,Image
+    Book,Image,Borrower
 };

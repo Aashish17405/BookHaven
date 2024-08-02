@@ -5,7 +5,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 
-const { Book, Image } = require('./db');
+const { Book, Image, Borrower } = require('./db');
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -59,7 +59,22 @@ app.post('/update-book-availability', async (req, res) => {
   }
 });
 
-
+app.post('/allocate-book', async (req, res) => {
+  console.log('called /allocate-book');
+  console.log('Request Body:', req.body);
+  try {
+    const { name, phone, bookName } = req.body;
+    if (!name || !phone || !bookName) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+    const newBorrower = new Borrower({ book:bookName, name, phone });
+    await newBorrower.save();
+    res.status(200).json({ message: 'Successfully allocated the book' });
+  } catch (err) {
+    console.error('Error:', err);
+    res.status(500).json({ message: 'An error occurred while allocating the book' });
+  }
+});
 
 app.get('/images', async (req, res) => {
   try {

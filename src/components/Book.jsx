@@ -1,8 +1,9 @@
 import React from 'react';
 import { TiMinus } from "react-icons/ti"; 
-import { FaPlus } from "react-icons/fa6";
+import { FaPlus } from "react-icons/fa";
 
-function Book({ bookId, name, publicationYear, author, available, updateAvailability }) {
+function Book({ bookId, name, publicationYear, author, available, updateAvailability, handleIconClick }) {
+  
   const handleChange = (value) => {
     const newAvailable = available + value;
     const payload = { bookId, available: newAvailable };
@@ -30,16 +31,22 @@ function Book({ bookId, name, publicationYear, author, available, updateAvailabi
         <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-500 bg-black bg-opacity-50">
           <button
             className="bg-blue-500 text-white py-2 px-4 m-2 rounded"
-            onClick={() => handleChange(-1)}
+            onClick={() => {
+              handleChange(-1);
+              handleIconClick(name);
+            }}
           >
             <TiMinus />
           </button>
           <div className="text-white">
-            Available:{available}
+            Available: {available}
           </div>
           <button
             className="bg-green-500 text-white py-2 px-4 m-2 rounded"
-            onClick={() => handleChange(1)}
+            onClick={() => {
+              handleChange(1);
+              handleIconClick(name);
+            }}
           >
             <FaPlus />
           </button>
