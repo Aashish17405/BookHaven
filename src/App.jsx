@@ -1,18 +1,18 @@
 import './App.css'
-import ImageGallery from './components/ImageGallery'
-import ImageUpload from './components/ImageUpload'
+import Addbook from './components/Addbook'
 import Page from './components/Page'
-import PopupForm from './components/PopupForm'
+import { Routes,Route } from 'react-router-dom'
 
 function App() {
 
   return (
-    <>
-      <Page/>
-      {/* <PopupForm/> */}
-      {/* <ImageUpload/> */}
-      {/* <ImageGallery/> */}
-    </>
+    <div>
+      <Routes>
+        <Route path="/" element={<Page />} />
+        <Route path="/home" element={<Page />} />
+        <Route path="/add-book" element={<Addbook />} />
+      </Routes>
+    </div>
   )
 }
 

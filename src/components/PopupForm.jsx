@@ -28,33 +28,35 @@ function PopupForm({ bookName }) {
     return (
         <div className="flex items-center justify-center h-screen">
             <div className="p-2 border border-green-500">
-                <h1 className="ml-10">Book Allocation Form</h1>
-                <label>
-                    Name:
-                    <input 
-                        type="text" 
-                        placeholder="name" 
-                        autoComplete="none" 
-                        className="border rounded border-black pl-1" 
-                        onChange={(event) => setName(event.target.value)} 
-                    />
-                </label><br />
-                <label>
-                    Phone:
-                    <input 
-                        type="tel" 
-                        placeholder="Phone number" 
-                        autoComplete="none" 
-                        className="border rounded border-black pl-1" 
-                        onChange={(event) => setPhoneNumber(event.target.value)}
-                    />
-                </label><br />
-                <button 
-                    className="ml-20 border border-black flex items-center" 
-                    onClick={() => handleChange()}
-                >
-                    Allocate
-                </button>
+                <form>
+                    <h1 className="ml-10">Book Allocation Form</h1>
+                    <label>
+                        Name:
+                        <input 
+                            type="text" 
+                            placeholder="name" 
+                            autoComplete="none" 
+                            className="border rounded border-black pl-1" 
+                            onChange={(event) => setName(event.target.value)} 
+                        />
+                    </label><br />
+                    <label>
+                        Phone:
+                        <input 
+                            type="tel" 
+                            placeholder="Phone number" 
+                            autoComplete="none" 
+                            className="border rounded border-black pl-1" 
+                            onChange={(event) => setPhoneNumber(event.target.value)}
+                        />
+                    </label><br />
+                    <button 
+                        className="ml-20 border border-black flex items-center" 
+                        onClick={() => handleChange()}
+                    >
+                        Allocate
+                    </button>
+                </form>
             </div>
         </div>
     );

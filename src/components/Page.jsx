@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Book from './Book';
 import PopupForm from './PopupForm';
+import Navbar from './Navbar';
 
 function Page() {
   const [books, setBooks] = useState([]);
@@ -40,6 +41,7 @@ function Page() {
 
   return (
     <div>
+      <Navbar/>
       {showPopup && <PopupForm bookName={bookName}/>}
       {books.map(book => (
         <Book

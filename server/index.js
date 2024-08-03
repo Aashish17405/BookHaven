@@ -59,6 +59,23 @@ app.post('/update-book-availability', async (req, res) => {
   }
 });
 
+app.post('/add-book', async (req, res) => {
+  console.log('called /add-book');
+  console.log('Request Body:', req.body);
+  try {
+    const { bookname, author, available, publicationyear } = req.body;
+    if (!bookname || !available || !author || !publicationyear) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+    const newBook = new Book({ name:bookname, available:available , author:author, publicationYear:publicationyear });
+    await newBook.save();
+    res.status(200).json({ message: 'Successfully added a book' });
+  } catch (err) {
+    console.error('Error:', err);
+    res.status(500).json({ message: 'An error occurred while adding the book' });
+  }
+});
+
 app.post('/allocate-book', async (req, res) => {
   console.log('called /allocate-book');
   console.log('Request Body:', req.body);
