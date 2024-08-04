@@ -1,8 +1,25 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { checkAndRemoveExpiredToken } from "../../server/tokenService.js";
 
 function PopupForm({ bookName }) {
     const [name, setName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const navigate = useNavigate();
+
+    function isLoggedIn(){
+        if(checkAndRemoveExpiredToken()){
+            navigate('/');
+        };
+        const token = localStorage.getItem('token');
+        if(!token){
+            navigate('/');
+        }
+    }
+
+    useEffect(()=>{
+        isLoggedIn();
+    },[]);
 
     const handleChange = async () => {
         try {

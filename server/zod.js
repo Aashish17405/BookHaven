@@ -7,4 +7,11 @@ const createBook = zod.object({
     publicationYear:zod.number(),
 })
 
-module.exports = createBook;
+const emailSchema=zod.string().email();
+const passwordSchema=zod.string().min(6);
+
+module.exports={
+    emailSchema,
+    passwordSchema,
+    createBook
+};

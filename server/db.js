@@ -1,6 +1,13 @@
 const mongoose=require('mongoose');
 mongoose.connect('mongodb+srv://Aashish17405:Aashish17@cluster0.muslifi.mongodb.net/Library-Management');
 
+const userSchema = new mongoose.Schema({
+    username: String,
+    password: String
+})
+
+const Users=mongoose.model('Users',userSchema);
+
 const imageSchema = new mongoose.Schema({
     name: String,
     img: {
@@ -29,5 +36,5 @@ const borrowerSchema = new mongoose.Schema({
 const Borrower = mongoose.model('Borrower',borrowerSchema);
 
 module.exports = {
-    Book,Image,Borrower
+    Book,Image,Borrower,Users
 };

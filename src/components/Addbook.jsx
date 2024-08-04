@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Navbar from "./Navbar";
+import { useNavigate } from "react-router-dom";
+import { checkAndRemoveExpiredToken } from "../../server/tokenService.js";
 
 function Addbook() {
     const [bookname, setBookname] = useState('');
@@ -7,10 +9,27 @@ function Addbook() {
     const [available, setAvailable] = useState('');
     const [publicationyear, setPublicationyear] = useState('');
 
+    const navigate = useNavigate();
+
+    function isLoggedIn(){
+        if(checkAndRemoveExpiredToken()){
+            navigate('/');
+        };
+        const token = localStorage.getItem('token');
+        if(!token){
+            navigate('/');
+        }
+    }
+
+    useEffect(()=>{
+        isLoggedIn();
+    },[]);
+
     const handleChange = async (event) => {
         event.preventDefault();
 
         try {
+            isLoggedIn();
             const response = await fetch('http://localhost:3000/add-book', {
                 method: 'POST',
                 headers: {

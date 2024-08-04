@@ -1,12 +1,15 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const jwt=require("jsonwebtoken");
 // const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const multer = require('multer');
+const { emailSchema,passwordSchema } = require('./zod');
+const { Book, Image, Borrower,Users } = require('./db');
 
-const { Book, Image, Borrower } = require('./db');
-
+const jwtPassword=process.env.JWT_SECRET;
+const expiryTime = 20;
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
@@ -23,8 +26,32 @@ const port = process.env.PORT || 3000;
 //   .then(() => console.log('Connected to MongoDB'))
 //   .catch(err => console.error("MongoDB connection error: " + err));
 
-app.get('/', async (req, res) => {
-  console.log('Received a GET request at /');
+function jwtSign(req, res, next) {
+  const { username, password } = req.body;
+
+  const usernameResponse = emailSchema.safeParse(username);
+  const passwordResponse = passwordSchema.safeParse(password);
+
+  if (!usernameResponse.success || !passwordResponse.success) {
+    return res.status(400).json({ message: 'Invalid input' });
+  }
+
+  const token = jwt.sign({ id: usernameResponse.data }, jwtPassword,{expiresIn:expiryTime});
+  res.locals.token = token;
+  next();
+}
+
+
+app.post('/', jwtSign, async (req, res) => {
+  console.log('Received a POST request at /');
+  console.log(req.body);
+  const user = new Users({ username: req.body.username, password: req.body.password});
+  await user.save();
+  res.json({ token: res.locals.token });
+});
+
+app.get('/get-books', async (req, res) => {
+  console.log('Received a GET request at /get-books');
   try {
     const books = await Book.find();
     res.json(books);
