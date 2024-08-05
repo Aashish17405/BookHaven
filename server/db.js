@@ -8,21 +8,15 @@ const userSchema = new mongoose.Schema({
 
 const Users=mongoose.model('Users',userSchema);
 
-const imageSchema = new mongoose.Schema({
-    name: String,
-    img: {
-      data: Buffer,
-      contentType: String,
-    },
-});
-
-const Image = mongoose.model('Image', imageSchema);
-
 const bookSchema = new mongoose.Schema({
     name:String,
     available:Number,
     author:String,
-    publicationYear:Number
+    publicationYear:Number,
+    img: {
+        data: Buffer,
+        contentType: String,
+    }
 })
 
 const Book = mongoose.model('Book',bookSchema);
@@ -36,5 +30,5 @@ const borrowerSchema = new mongoose.Schema({
 const Borrower = mongoose.model('Borrower',borrowerSchema);
 
 module.exports = {
-    Book,Image,Borrower,Users
+    Book,Borrower,Users
 };

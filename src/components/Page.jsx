@@ -48,7 +48,12 @@ function Page() {
   };
 
   const updateAvailability = (bookId, newAvailable) => {
-    setShowPopup(true);
+    books.map(book =>{
+      if(book.available-1==newAvailable){
+        setShowPopup(true);
+      }
+    })
+    
     setBooks(books.map(book =>
       book._id === bookId ? { ...book, available: newAvailable } : book
     ));
@@ -58,7 +63,7 @@ function Page() {
     <div>
       <Navbar/>
       {showPopup && <PopupForm bookName={bookName}/>}
-      {books.map(book => (
+      {!showPopup && books.map(book => (
         <Book
           key={book._id}
           bookId={book._id}
@@ -66,6 +71,7 @@ function Page() {
           publicationYear={book.publicationYear}
           author={book.author}
           available={book.available}
+          imagesrc={book.img}
           updateAvailability={updateAvailability}
           handleIconClick={handleIconClick}
         />
@@ -73,5 +79,4 @@ function Page() {
     </div>
   );
 }
-
 export default Page;

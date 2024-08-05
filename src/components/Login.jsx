@@ -19,10 +19,19 @@ function Login(){
                 })
             })
             const data = await response.json();
-            console.log(data);
-            if(data.token){
-                localStorage.setItem('token', data.token);
-                navigate('/home');
+            if(response.ok){
+                console.log('Logged In Successfully');
+                setUsername('');
+                setPassword('');
+                if(data.token){
+                    localStorage.setItem('token', data.token);
+                    navigate('/home');
+                }
+            }
+            else{
+                alert(data.message);
+                setUsername('');
+                setPassword('');
             }
         }catch(e){
             // console.error('Error:', e.message);
@@ -41,6 +50,7 @@ function Login(){
             setPassword(event.target.value);
         }}></input><br/><br/>
         <button onClick={handleSubmit}>Login</button>
+        <p>Don't have an account? <button className="underline" onClick={()=> navigate('/register')} >Register</button></p>
     </div>
 }
 export default Login;

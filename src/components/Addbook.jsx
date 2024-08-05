@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import { checkAndRemoveExpiredToken } from "../../server/tokenService.js";
@@ -8,55 +8,55 @@ function Addbook() {
     const [author, setAuthor] = useState('');
     const [available, setAvailable] = useState('');
     const [publicationyear, setPublicationyear] = useState('');
+    const [image, setImage] = useState(null);
 
     const navigate = useNavigate();
 
-    function isLoggedIn(){
-        if(checkAndRemoveExpiredToken()){
-            navigate('/');
-        };
-        const token = localStorage.getItem('token');
-        if(!token){
+    useEffect(() => {
+        if (checkAndRemoveExpiredToken()) {
             navigate('/');
         }
-    }
-
-    useEffect(()=>{
-        isLoggedIn();
-    },[]);
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/');
+        }
+    }, [navigate]);
 
     const handleChange = async (event) => {
         event.preventDefault();
+        const formData = new FormData();
+        formData.append('image', image);
+        formData.append('bookname', bookname);
+        formData.append('author', author);
+        formData.append('available', available);
+        formData.append('publicationyear', publicationyear);
 
         try {
-            isLoggedIn();
             const response = await fetch('http://localhost:3000/add-book', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    bookname,
-                    author,
-                    available,
-                    publicationyear,
-                }),
+                body: formData,
             });
 
             const data = await response.json();
             console.log(data.message);
+            alert('New Book uploaded successfully');
             setBookname('');
             setAuthor('');
             setAvailable('');
             setPublicationyear('');
+            setImage(null);
         } catch (error) {
             console.error("Error adding book:", error);
         }
     };
 
+    const handleImageChange = (e) => {
+        setImage(e.target.files[0]);
+    };
+
     return (
         <div>
-            <Navbar/>
+            <Navbar />
             <form onSubmit={handleChange}>
                 <h1>Add a Book</h1>
                 <label>
@@ -66,6 +66,7 @@ function Addbook() {
                         placeholder="name of the book" 
                         className="border border-black rounded"
                         onChange={(event) => setBookname(event.target.value)} 
+                        value={bookname}
                     />
                 </label><br />
                 <label>
@@ -75,6 +76,7 @@ function Addbook() {
                         placeholder="no of books available" 
                         className="border border-black rounded"
                         onChange={(event) => setAvailable(event.target.value)} 
+                        value={available}
                     />
                 </label><br />
                 <label>
@@ -84,6 +86,7 @@ function Addbook() {
                         placeholder="enter the author name" 
                         className="border border-black rounded"
                         onChange={(event) => setAuthor(event.target.value)} 
+                        value={author}
                     />
                 </label><br />
                 <label>
@@ -93,8 +96,10 @@ function Addbook() {
                         placeholder="publication year" 
                         className="border border-black rounded"
                         onChange={(event) => setPublicationyear(event.target.value)} 
+                        value={publicationyear}
                     />
                 </label><br />
+                <input type="file" onChange={handleImageChange} required />
                 <button 
                     type="submit"
                     className="border border-black rounded"
