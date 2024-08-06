@@ -9,6 +9,7 @@ function Navbar(){
             removeToken();
             window.location.reload();
         }}>Logout</button>
+        <button onClick={() => navigate('/register')}>Register</button>
     </div>
 }
 export default Navbar;

@@ -50,7 +50,6 @@ function Login(){
             setPassword(event.target.value);
         }}></input><br/><br/>
         <button onClick={handleSubmit}>Login</button>
-        <p>Don't have an account? <button className="underline" onClick={()=> navigate('/register')} >Register</button></p>
     </div>
 }
 export default Login;
