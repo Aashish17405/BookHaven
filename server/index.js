@@ -145,6 +145,17 @@ app.post('/allocate-book', async (req, res) => {
   }
 });
 
+app.get('/book-allocation', async (req, res) => {
+  console.log('called /book-allocation');
+  try{
+    const borrowers = await Borrower.find();
+    res.status(200).json(borrowers);
+  }catch (err) {
+    console.error('Error:', err);
+    res.status(500).json({ message: 'An error occurred while fetching book allocation details' });
+  }
+});
+
 app.listen(port, () => {
   console.log("Server listening on port " + port);
 });

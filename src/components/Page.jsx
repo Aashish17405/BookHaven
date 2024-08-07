@@ -48,11 +48,7 @@ function Page() {
   };
 
   const updateAvailability = (bookId, newAvailable) => {
-    books.map(book =>{
-      if(book.available-1==newAvailable){
-        setShowPopup(true);
-      }
-    })
+    setShowPopup(true);
     
     setBooks(books.map(book =>
       book._id === bookId ? { ...book, available: newAvailable } : book

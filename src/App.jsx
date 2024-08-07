@@ -4,6 +4,7 @@ import Login from './components/Login'
 import Page from './components/Page'
 import { Routes,Route } from 'react-router-dom'
 import Register from './components/Register'
+import BookAllocation from './components/BookAllocation'
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
         <Route path='/register' element={<Register/>}/>
         <Route path="/home" element={<Page />} />
         <Route path="/add-book" element={<Addbook />} />
+        <Route path="/book-allocation" element={<BookAllocation />} />
       </Routes>
     </div>
   )

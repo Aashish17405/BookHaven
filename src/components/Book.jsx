@@ -30,6 +30,9 @@ function Book({ imagesrc, bookId, name, publicationYear, author, available, upda
       <div className="relative w-64 h-64">
         <img src={imagesrc} className=" rounded w-full h-full" alt={name} />
         <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-500 bg-black bg-opacity-50">
+          <div className="text-white">
+            Available: {available}
+          </div>
           <button
             className="bg-blue-500 text-white py-2 px-4 m-2 rounded"
             onClick={() => {
@@ -38,17 +41,6 @@ function Book({ imagesrc, bookId, name, publicationYear, author, available, upda
             }}
           >
             <TiMinus />
-          </button>
-          <div className="text-white">
-            Available: {available}
-          </div>
-          <button
-            className="bg-green-500 text-white py-2 px-4 m-2 rounded"
-            onClick={() => {
-              handleChange(1);
-            }}
-          >
-            <FaPlus />
           </button>
         </div>
       </div>
