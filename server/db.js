@@ -29,6 +29,14 @@ const borrowerSchema = new mongoose.Schema({
 
 const Borrower = mongoose.model('Borrower',borrowerSchema);
 
+const ReturnerSchema = new mongoose.Schema({
+    book: String,
+    name: String,
+    phone: Number,
+})
+
+const Returner = mongoose.model('Returner',ReturnerSchema);
+
 module.exports = {
-    Book,Borrower,Users
+    Book,Borrower,Users,Returner
 };

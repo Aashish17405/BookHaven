@@ -6,6 +6,7 @@ function Navbar(){
         <button onClick={() => navigate('/home')}>Home</button>
         <button onClick={() => navigate('/add-book')}>Add a book</button>
         <button onClick={() => navigate('/book-allocation')}>Book Allocation</button>
+        <button onClick={() => navigate('/return-details')}>Return details</button>
         <button onClick={() => {
             removeToken();
             window.location.reload();

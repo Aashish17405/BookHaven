@@ -4,7 +4,7 @@ const cors = require('cors');
 const jwt=require("jsonwebtoken");
 const multer = require('multer');
 const { emailSchema,passwordSchema } = require('./zod');
-const { Book,Borrower,Users } = require('./db');
+const { Book,Borrower,Users,Returner } = require('./db');
 
 const jwtPassword=process.env.JWT_SECRET;
 const expiryTime = 3000;
@@ -37,18 +37,26 @@ function jwtSign(req, res, next) {
 app.post('/', jwtSign, async (req, res) => {
   console.log('Received a POST request at /');
   console.log(req.body);
-  const {username, password} = req.body;
-  const user = await Users.findOne({ username });
-  if (!user) {
-    return res.status(401).json({ message: 'Invalid credentials' });
+  const { username, password } = req.body;
+  try {
+    const user = await Users.findOne({ username });
+    
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+    
+    if (user.password !== password) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+    const token = res.locals.token;
+    res.json({ token });
+    
+  } catch (err) {
+    console.error('Error processing request:', err);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
-  if (user.password != password) {
-    return res.status(401).json({ message: 'Invalid credentials' });
-  }
-  res.json({ token: res.locals.token });
-  await user.save();
-  res.json({ token: res.locals.token });
 });
+
 
 app.post('/register', async (req, res) => {
   console.log('Received a POST request at /register');
@@ -150,6 +158,36 @@ app.get('/book-allocation', async (req, res) => {
   try{
     const borrowers = await Borrower.find();
     res.status(200).json(borrowers);
+  }catch (err) {
+    console.error('Error:', err);
+    res.status(500).json({ message: 'An error occurred while fetching book allocation details' });
+  }
+});
+
+app.post('/delete-book', async (req, res) => {
+  console.log('Received a POST request at /delete-book');
+  console.log(req.body);
+  const { book, name } = req.body;
+  try {
+    const borrower = await Borrower.findOne({ book: book, name: name });
+    const returner = new Returner(borrower.toObject());
+    await returner.save();
+    await Borrower.deleteOne({ book: book, name: name });
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: 'No matching documents found' });
+    }
+    res.status(200).json({ message: 'Document deleted successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error deleting document' });
+  }
+});
+
+app.get('/return-details', async (req, res) => {
+  console.log('called /return-details');
+  try{
+    const returner = await Returner.find();
+    res.status(200).json(returner);
   }catch (err) {
     console.error('Error:', err);
     res.status(500).json({ message: 'An error occurred while fetching book allocation details' });
