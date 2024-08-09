@@ -31,6 +31,8 @@ function ReturnDetails() {
         { field: 'book', headerName: 'Book', width: 290 },
         { field: 'name', headerName: 'Name', width: 100 },
         { field: 'phoneNumber', headerName: 'Phone', width: 110 },
+        { field: 'Bdatetime', headerName: 'Borrowed Time', width: 160 },
+        { field: 'Rdatetime', headerName: 'Returned Time', width: 160 },
     ];
     
     const rows = bookDetails.map((item,index) => ({
@@ -38,12 +40,14 @@ function ReturnDetails() {
         book: item.book,
         name: item.name,
         phoneNumber: item.phone,
+        Bdatetime: item.borrowedDateTime,
+        Rdatetime: item.returnedDateTime,
     }));
 
     return (
         <>
             <Navbar />
-            <div style={{ height: 450, width: '49%' }}>
+            <div style={{ height: 450, width: '69%' }}>
             <DataGrid
                     rows={rows}
                     columns={columns}

@@ -1,27 +1,33 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { checkAndRemoveExpiredToken } from "../../server/tokenService.js";
 
-function PopupForm({ bookName }) {
+function PopupForm({ bookName, setpopup }) {
     const [name, setName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    function isLoggedIn(){
-        if(checkAndRemoveExpiredToken()){
+    function isLoggedIn() {
+        if (checkAndRemoveExpiredToken()) {
             navigate('/');
-        };
+        }
         const token = localStorage.getItem('token');
-        if(!token){
+        if (!token) {
             navigate('/');
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         isLoggedIn();
-    },[]);
+    }, []);
 
-    const handleChange = async () => {
+    const handleChange = async (event) => {
+        event.preventDefault();
+        if (!name || !phoneNumber) {
+            setError('All fields are required');
+            return;
+        }
         try {
             const response = await fetch('http://localhost:3000/allocate-book', {
                 method: 'POST',
@@ -35,24 +41,25 @@ function PopupForm({ bookName }) {
                 })
             });
             const data = await response.json();
-            console.log(data.message);
             alert(data.message);
+            setpopup(false);
         } catch (error) {
             console.error('Error allocating book:', error);
+            setError('An error occurred. Please try again.');
         }
     };
 
     return (
         <div className="flex items-center justify-center h-screen">
             <div className="p-2 border border-green-500">
-                <form>
+                <form onSubmit={handleChange}>
                     <h1 className="ml-10">Book Allocation Form</h1>
                     <label>
                         Name:
                         <input 
                             type="text" 
-                            placeholder="name" 
-                            autoComplete="none" 
+                            placeholder="Name" 
+                            autoComplete="off" 
                             className="border rounded border-black pl-1" 
                             onChange={(event) => setName(event.target.value)} 
                         />
@@ -62,14 +69,15 @@ function PopupForm({ bookName }) {
                         <input 
                             type="tel" 
                             placeholder="Phone number" 
-                            autoComplete="none" 
+                            autoComplete="off" 
                             className="border rounded border-black pl-1" 
                             onChange={(event) => setPhoneNumber(event.target.value)}
                         />
                     </label><br />
+                    {error && <div className="text-red-500">{error}</div>}
                     <button 
-                        className="ml-20 border border-black flex items-center" 
-                        onClick={() => handleChange()}
+                        type="submit" 
+                        className="ml-20 border border-black flex items-center"
                     >
                         Allocate
                     </button>

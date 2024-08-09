@@ -12,12 +12,12 @@ function Page() {
 
   const navigate = useNavigate();
 
-  function isLoggedIn(){
-    if(checkAndRemoveExpiredToken()){
+  function isLoggedIn() {
+    if (checkAndRemoveExpiredToken()) {
       navigate('/');
-    };
+    }
     const token = localStorage.getItem('token');
-    if(!token){
+    if (!token) {
       navigate('/');
     }
   }
@@ -40,16 +40,16 @@ function Page() {
     fetchData();
   }, []);
 
+  const setpopup = (show) => {
+    setShowPopup(show);
+  }
+
   const handleIconClick = (name) => {
     setBookName(name);
-    // setInterval(() => {
-    //   setShowPopup(false);
-    // }, 15000);
+    setShowPopup(true);
   };
 
   const updateAvailability = (bookId, newAvailable) => {
-    setShowPopup(true);
-    
     setBooks(books.map(book =>
       book._id === bookId ? { ...book, available: newAvailable } : book
     ));
@@ -57,8 +57,8 @@ function Page() {
 
   return (
     <div>
-      <Navbar/>
-      {showPopup && <PopupForm bookName={bookName}/>}
+      <Navbar />
+      {showPopup && <PopupForm bookName={bookName} setpopup={setpopup} />}
       {!showPopup && books.map(book => (
         <Book
           key={book._id}

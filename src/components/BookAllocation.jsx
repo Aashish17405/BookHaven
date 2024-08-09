@@ -66,6 +66,7 @@ function DataTable() {
         { field: 'book', headerName: 'Book', width: 290 },
         { field: 'name', headerName: 'Name', width: 100 },
         { field: 'phoneNumber', headerName: 'Phone', width: 110 },
+        { field: 'datetime', headerName: 'Borrowed Time', width: 160 },
     ];
     
     const rows = bookDetails.map((item,index) => ({
@@ -73,12 +74,13 @@ function DataTable() {
         book: item.book,
         name: item.name,
         phoneNumber: item.phone,
+        datetime: item.borrowedDateTime,
     }));
 
     return (
         <>
             <Navbar />
-            <div style={{ height: 450, width: '51%' }}>
+            <div style={{ height: 450, width: '63%' }}>
             <DataGrid
                     rows={rows}
                     columns={columns}

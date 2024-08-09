@@ -1,10 +1,16 @@
 import React from 'react';
 import { TiMinus } from "react-icons/ti"; 
-import { FaPlus } from "react-icons/fa";
 
 function Book({ imagesrc, bookId, name, publicationYear, author, available, updateAvailability, handleIconClick }) {
   
   const handleChange = (value) => {
+    const availableNumber = Number(available);
+    const valueNumber = Number(value);
+
+    if ((availableNumber - valueNumber) < 0) {
+      alert('Invalid availability');
+      return;
+    }
     const newAvailable = available + value;
     const payload = { bookId, available: newAvailable };
     console.log('Payload being sent:', payload);
@@ -24,11 +30,10 @@ function Book({ imagesrc, bookId, name, publicationYear, author, available, upda
       .catch(error => console.error('Error updating availability:', error));
   };
   
-
   return (
-    <div className="p-3 w-96 h-50 ">
+    <div className="p-3 w-96 h-50">
       <div className="relative w-64 h-64">
-        <img src={imagesrc} className=" rounded w-full h-full" alt={name} />
+        <img src={imagesrc} className="rounded w-full h-full" alt={name} />
         <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-500 bg-black bg-opacity-50">
           <div className="text-white">
             Available: {available}

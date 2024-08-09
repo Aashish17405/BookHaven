@@ -33,6 +33,36 @@ function jwtSign(req, res, next) {
   next();
 }
 
+function get_time(){
+  let now = new Date();
+  let hours = now.getHours();
+  if(hours<10){
+    hours = '0' + hours;
+  }
+  let minutes = now.getMinutes();
+  if(minutes<10){
+    minutes = '0' + minutes;
+  }
+  let seconds = now.getSeconds();
+  if(seconds<10){
+    seconds = '0' + seconds;
+  }
+
+  let time = hours + ':' + minutes + ':' + seconds;
+  console.log(time);
+  return time;
+}
+
+function get_date(){
+  let today = new Date();
+  let dd = String(today.getDate()).padStart(2, '0');
+  let mm = String(today.getMonth() + 1).padStart(2, '0');
+  let yyyy = today.getFullYear();
+
+  today = dd + '/' + mm + '/' +  yyyy;
+  console.log(today);
+  return today;
+}
 
 app.post('/', jwtSign, async (req, res) => {
   console.log('Received a POST request at /');
@@ -144,7 +174,9 @@ app.post('/allocate-book', async (req, res) => {
     if (!name || !phone || !bookName) {
       return res.status(400).json({ message: 'All fields are required' });
     }
-    const newBorrower = new Borrower({ book:bookName, name, phone });
+    let DateTime = get_time();
+    DateTime = DateTime+'-'+get_date();
+    const newBorrower = new Borrower({ book:bookName, name, phone, borrowedDateTime:DateTime });
     await newBorrower.save();
     res.status(200).json({ message: 'Successfully allocated the book' });
   } catch (err) {
@@ -169,8 +201,10 @@ app.post('/delete-book', async (req, res) => {
   console.log(req.body);
   const { book, name } = req.body;
   try {
+    let DateTime = get_time();
+    DateTime = DateTime+'-'+get_date();
     const borrower = await Borrower.findOne({ book: book, name: name });
-    const returner = new Returner(borrower.toObject());
+    const returner = new Returner({ ...borrower.toObject(), returnedDateTime: DateTime });
     await returner.save();
     await Borrower.deleteOne({ book: book, name: name });
     if (result.deletedCount === 0) {

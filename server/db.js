@@ -25,6 +25,7 @@ const borrowerSchema = new mongoose.Schema({
     book: String,
     name: String,
     phone: Number,
+    borrowedDateTime: String,
 })
 
 const Borrower = mongoose.model('Borrower',borrowerSchema);
@@ -33,6 +34,8 @@ const ReturnerSchema = new mongoose.Schema({
     book: String,
     name: String,
     phone: Number,
+    borrowedDateTime: String,
+    returnedDateTime:String,
 })
 
 const Returner = mongoose.model('Returner',ReturnerSchema);
