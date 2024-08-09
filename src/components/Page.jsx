@@ -46,13 +46,15 @@ function Page() {
 
   const handleIconClick = (name) => {
     setBookName(name);
-    setShowPopup(true);
+    setShowPopup(true); // Show the popup only if we are allocating a book
   };
 
   const updateAvailability = (bookId, newAvailable) => {
-    setBooks(books.map(book =>
-      book._id === bookId ? { ...book, available: newAvailable } : book
-    ));
+    setBooks(prevBooks => 
+      prevBooks.map(book =>
+        book._id === bookId ? { ...book, available: newAvailable } : book
+      )
+    );
   };
 
   return (
@@ -75,4 +77,5 @@ function Page() {
     </div>
   );
 }
+
 export default Page;

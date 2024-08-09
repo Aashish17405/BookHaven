@@ -30,8 +30,6 @@ function Login(){
             }
             else{
                 alert(data.message);
-                setUsername('');
-                setPassword('');
             }
         }catch(e){
             // console.error('Error:', e.message);

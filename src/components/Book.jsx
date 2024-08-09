@@ -1,17 +1,21 @@
 import React from 'react';
 import { TiMinus } from "react-icons/ti"; 
+import { FaPlus } from "react-icons/fa";
 
 function Book({ imagesrc, bookId, name, publicationYear, author, available, updateAvailability, handleIconClick }) {
   
   const handleChange = (value) => {
-    const availableNumber = Number(available);
-    const valueNumber = Number(value);
-
-    if ((availableNumber - valueNumber) < 0) {
-      alert('Invalid availability');
+    if (available <= 0 && value < 0) {
+      alert('No more available books to allocate.');
       return;
     }
+
     const newAvailable = available + value;
+    if (newAvailable < 0) {
+      alert('Available count cannot be negative.');
+      return;
+    }
+
     const payload = { bookId, available: newAvailable };
     console.log('Payload being sent:', payload);
 
@@ -25,11 +29,14 @@ function Book({ imagesrc, bookId, name, publicationYear, author, available, upda
       .then(response => response.json())
       .then(data => {
         console.log('Response data:', data);
-        updateAvailability(bookId, newAvailable);
+        updateAvailability(bookId, newAvailable); // Trigger the update in parent component
+        if (value < 0) {
+          handleIconClick(name); // Only show popup if we are allocating a book
+        }
       })
       .catch(error => console.error('Error updating availability:', error));
   };
-  
+
   return (
     <div className="p-3 w-96 h-50">
       <div className="relative w-64 h-64">
@@ -40,10 +47,7 @@ function Book({ imagesrc, bookId, name, publicationYear, author, available, upda
           </div>
           <button
             className="bg-blue-500 text-white py-2 px-4 m-2 rounded"
-            onClick={() => {
-              handleChange(-1);
-              handleIconClick(name);
-            }}
+            onClick={() => handleChange(-1)} // Decrease availability and show popup if necessary
           >
             <TiMinus />
           </button>
