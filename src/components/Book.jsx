@@ -1,6 +1,5 @@
 import React from 'react';
 import { TiMinus } from "react-icons/ti"; 
-import { FaPlus } from "react-icons/fa";
 
 function Book({ imagesrc, bookId, name, publicationYear, author, available, updateAvailability, handleIconClick }) {
   

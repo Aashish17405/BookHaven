@@ -1,9 +1,27 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import Navbar from "./Navbar";
+import { useNavigate } from "react-router-dom";
+import { checkAndRemoveExpiredToken } from "../../server/tokenService.js";
 
 function Register() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const navigate = useNavigate();
+
+    function isLoggedIn() {
+        if (checkAndRemoveExpiredToken()) {
+            navigate('/');
+        }
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/');
+        }
+    }
+
+    useEffect(() => {
+        isLoggedIn();
+    }, []);
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -43,6 +61,7 @@ function Register() {
 
     return (
         <div>
+            <Navbar/>
             <form onSubmit={handleSubmit}>
                 <label>Username</label>
                 <input

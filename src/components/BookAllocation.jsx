@@ -2,13 +2,27 @@ import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { useState, useEffect } from 'react';
 import Navbar from './Navbar';
+import { useNavigate } from 'react-router-dom';
+import { checkAndRemoveExpiredToken } from "../../server/tokenService.js";
 
 function DataTable() {
     const [bookDetails, setBookdetails] = useState([]);
     const [selectedRows, setSelectedRows] = useState([]);
+    const navigate = useNavigate();
+
+    function isLoggedIn() {
+        if (checkAndRemoveExpiredToken()) {
+            navigate('/');
+        }
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/');
+        }
+    }
 
     useEffect(() => {
         get_allocation();
+        isLoggedIn();
     }, []);
 
     async function get_allocation() {
@@ -80,13 +94,13 @@ function DataTable() {
     return (
         <>
             <Navbar />
-            <div style={{ height: 450, width: '63%' }}>
+            <div style={{ height: 600, width: '63%' }}>
             <DataGrid
                     rows={rows}
                     columns={columns}
                     initialState={{
                         pagination: {
-                            paginationModel: { pageSize: 5, page: 0 },
+                            paginationModel: { pageSize: 10, page: 0 },
                         },
                     }}
                     pageSizeOptions={[5, 10]}

@@ -6,7 +6,8 @@ function Login(){
     const [password, setPassword] = useState('');
     const navigate =useNavigate();
 
-    async function handleSubmit(){
+    async function handleSubmit(event){
+        event.preventDefault();
         try{
             const response = await fetch("http://localhost:3000/", {
                 method:"POST",
@@ -29,6 +30,8 @@ function Login(){
                 }
             }
             else{
+                setUsername('');
+                setPassword('');
                 alert(data.message);
             }
         }catch(e){
@@ -40,11 +43,11 @@ function Login(){
     }
     return <div>
         <h3>Enter Username:</h3>
-        <input type="text" placeholder="username" onChange={(event)=>{
+        <input type="text" placeholder="username" autoComplete="off" value={username} onChange={(event)=>{
             setUsername(event.target.value);
         }}></input><br/><br/>
         <h3>Enter Password:</h3>
-        <input type="password" placeholder="password" onChange={(event)=>{
+        <input type="password" placeholder="password" value={password} onChange={(event)=>{
             setPassword(event.target.value);
         }}></input><br/><br/>
         <button onClick={handleSubmit}>Login</button>
