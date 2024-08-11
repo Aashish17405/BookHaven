@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Lottie from "react-lottie";
+import animationData from '../assets/spinnerlottie.json';
 
 function Login(){
     const [username, setUsername] = useState('');
@@ -41,7 +43,18 @@ function Login(){
             setPassword('');
         }
     }
+    const defaultOptions = {
+        loop: true,
+        autoplay: true, 
+        animationData: animationData,
+        rendererSettings: {
+          preserveAspectRatio: 'xMidYMid slice'
+        }
+    };
     return <div>
+        
+        <Lottie options={defaultOptions} height={400} width={400}/>
+        
         <h3>Enter Username:</h3>
         <input type="text" placeholder="username" autoComplete="off" value={username} onChange={(event)=>{
             setUsername(event.target.value);
