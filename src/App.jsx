@@ -6,6 +6,7 @@ import { Routes,Route } from 'react-router-dom'
 import Register from './components/Register'
 import DataTable from './components/BookAllocation'
 import ReturnDetails from './components/ReturnDetails'
+import PageNotFound from './components/PageNotFound'
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/add-book" element={<Addbook />} />
         <Route path="/book-allocation" element={<DataTable />} />
         <Route path="/return-details" element={<ReturnDetails />} />
+        <Route path="*" element={<PageNotFound/>}/>
       </Routes>
     </div>
   )
