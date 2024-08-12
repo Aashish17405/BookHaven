@@ -43,7 +43,7 @@ function ReturnDetails() {
     const columns = [
         { field: 'id', headerName: 'ID', width: 220 },
         { field: 'book', headerName: 'Book', width: 290 },
-        { field: 'name', headerName: 'Name', width: 100 },
+        { field: 'name', headerName: 'Name', width: 128 },
         { field: 'phoneNumber', headerName: 'Phone', width: 110 },
         { field: 'Bdatetime', headerName: 'Borrowed Time', width: 160 },
         { field: 'Rdatetime', headerName: 'Returned Time', width: 160 },
@@ -61,7 +61,7 @@ function ReturnDetails() {
     return (
         <>
             <Navbar />
-            <div style={{ height: 600, width: '69%' }}>
+            <div style={{ height: 600, width: '72%' }}>
             <DataGrid
                     rows={rows}
                     columns={columns}

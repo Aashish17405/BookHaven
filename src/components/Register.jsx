@@ -2,6 +2,8 @@ import { useState,useEffect } from "react";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import { checkAndRemoveExpiredToken } from "../../server/tokenService.js";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function Register() {
     const [username, setUsername] = useState('');
@@ -27,7 +29,7 @@ function Register() {
         event.preventDefault();
 
         if (password !== confirmPassword) {
-            alert('Passwords do not match');
+            toast.warning('Passwords do not match');
             return;
         }
 
@@ -49,13 +51,12 @@ function Register() {
                 setUsername('');
                 setPassword('');
                 setConfirmPassword('');
-                alert(data.message);
+                toast.success(data.message);
             } else {
-                alert(data.message);
+                toast.error(data.message);
             }
         } catch (e) {
             console.log(e.message);
-            alert(data.message);
         }
     }
 

@@ -196,19 +196,22 @@ app.get('/book-allocation', async (req, res) => {
   }
 });
 
-app.post('/delete-book', async (req, res) => {
-  console.log('Received a POST request at /delete-book');
+app.post('/return-book', async (req, res) => {
+  console.log('Received a POST request at /return-book');
   console.log(req.body);
-  const { book, name } = req.body;
+  const { book, name} = req.body;
   try {
     let DateTime = get_time();
     DateTime = DateTime+'-'+get_date();
     const borrower = await Borrower.findOne({ book: book, name: name });
+    const updatedBook = await Book.findOne({name: book});    
+    console.log(updatedBook);
+    await Book.updateOne({ name: book }, { $inc: { available: 1 } });
     const returner = new Returner({ ...borrower.toObject(), returnedDateTime: DateTime });
     await returner.save();
-    await Borrower.deleteOne({ book: book, name: name });
-    if (result.deletedCount === 0) {
-      return res.status(404).json({ message: 'No matching documents found' });
+    const deleteResult = await Borrower.deleteOne({ book: book, name: name });
+    if (deleteResult.deletedCount === 0) {
+      return res.status(404).json({ message: 'No matching borrower found' });
     }
     res.status(200).json({ message: 'Document deleted successfully' });
   } catch (err) {

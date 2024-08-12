@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import { checkAndRemoveExpiredToken } from "../../server/tokenService.js";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function Addbook() {
     const [bookname, setBookname] = useState('');
@@ -24,6 +26,22 @@ function Addbook() {
 
     const handleChange = async (event) => {
         event.preventDefault();
+        if (!bookname || !author || !available || !publicationyear || !image) {
+            toast.error('All fields are required');
+            return;
+        }
+
+        if (parseInt(available) <= 0) {
+            toast.warning('Number of available books must be positive');
+            return;
+        }
+
+        const currentYear = new Date().getFullYear();
+        if (parseInt(publicationyear) > currentYear) {
+            toast.warning('Publication year cannot be in the future');
+            return;
+        }
+
         const formData = new FormData();
         formData.append('image', image);
         formData.append('bookname', bookname);
@@ -38,8 +56,7 @@ function Addbook() {
             });
 
             const data = await response.json();
-            console.log(data.message);
-            alert('New Book uploaded successfully');
+            toast.success('New Book uploaded successfully');
             setBookname('');
             setAuthor('');
             setAvailable('');
@@ -47,6 +64,7 @@ function Addbook() {
             setImage(null);
         } catch (error) {
             console.error("Error adding book:", error);
+            toast.error('Failed to add book. Please try again.');
         }
     };
 

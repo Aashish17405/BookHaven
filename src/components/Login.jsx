@@ -1,7 +1,9 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Lottie from "react-lottie";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Lottie from 'react-lottie';
 import animationData from '../assets/spinnerlottie.json';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Login(){
     const [username, setUsername] = useState('');
@@ -11,7 +13,7 @@ function Login(){
     async function handleSubmit(event){
         event.preventDefault();
         try{
-            const response = await fetch("http://localhost:3000/", {
+            const response = await fetch('http://localhost:3000/', {
                 method:"POST",
                 headers:{
                     'Content-Type': 'application/json',
@@ -34,7 +36,7 @@ function Login(){
             else{
                 setUsername('');
                 setPassword('');
-                alert(data.message);
+                toast.error(data.message);
             }
         }catch(e){
             // console.error('Error:', e.message);

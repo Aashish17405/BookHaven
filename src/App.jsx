@@ -7,6 +7,8 @@ import Register from './components/Register'
 import DataTable from './components/BookAllocation'
 import ReturnDetails from './components/ReturnDetails'
 import PageNotFound from './components/PageNotFound'
+import { ToastContainer, Bounce} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 
@@ -21,6 +23,19 @@ function App() {
         <Route path="/return-details" element={<ReturnDetails />} />
         <Route path="*" element={<PageNotFound/>}/>
       </Routes>
+      <ToastContainer
+        position="top-center"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
     </div>
   )
 }

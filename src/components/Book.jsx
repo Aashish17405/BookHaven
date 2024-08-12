@@ -1,17 +1,19 @@
 import React from 'react';
 import { TiMinus } from "react-icons/ti"; 
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function Book({ imagesrc, bookId, name, publicationYear, author, available, updateAvailability, handleIconClick }) {
   
   const handleChange = (value) => {
     if (available <= 0 && value < 0) {
-      alert('No more available books to allocate.');
+      toast.error('No more available books to allocate.');
       return;
     }
 
     const newAvailable = available + value;
     if (newAvailable < 0) {
-      alert('Available count cannot be negative.');
+      toast.error('Available count cannot be negative.');
       return;
     }
 
@@ -28,9 +30,9 @@ function Book({ imagesrc, bookId, name, publicationYear, author, available, upda
       .then(response => response.json())
       .then(data => {
         console.log('Response data:', data);
-        updateAvailability(bookId, newAvailable); // Trigger the update in parent component
+        updateAvailability(bookId, newAvailable); 
         if (value < 0) {
-          handleIconClick(name); // Only show popup if we are allocating a book
+          handleIconClick(name);
         }
       })
       .catch(error => console.error('Error updating availability:', error));

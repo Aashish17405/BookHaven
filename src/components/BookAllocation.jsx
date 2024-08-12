@@ -3,7 +3,9 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';
-import { checkAndRemoveExpiredToken } from "../../server/tokenService.js";
+import { checkAndRemoveExpiredToken } from '../../server/tokenService.js';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function DataTable() {
     const [bookDetails, setBookdetails] = useState([]);
@@ -37,7 +39,8 @@ function DataTable() {
             setBookdetails(data);
             console.log('Fetched book details:', data);
         } catch (err) {
-            console.error("Error fetching book allocation", err);
+            console.error('Error fetching book allocation', err);
+            toast.error('Failed to fetch updated book details');
         }
     }
 
@@ -45,7 +48,7 @@ function DataTable() {
         try {
             console.log('Selected rows:', selectedRows);
             if (selectedRows.length === 0) {
-                alert('No rows selected');
+                toast.warning('No rows selected');
                 return;
             }
 
@@ -53,7 +56,7 @@ function DataTable() {
                 const rowData = bookDetails.find(row => row._id === rowId);
                 console.log('Deleting row:', rowData);
                 if (rowData) {
-                    await fetch('http://localhost:3000/delete-book', {
+                    await fetch('http://localhost:3000/return-book', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -67,18 +70,19 @@ function DataTable() {
             });
 
             await Promise.all(deleteRequests);
-
+            toast.success('Book returned successfully');
             get_allocation();
             setSelectedRows([]);
         } catch (err) {
-            console.error("Error deleting entries", err);
+            console.error('Error:', err);
+            toast.error('Some error occurred. Please try again');
         }
     };
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 220 },
         { field: 'book', headerName: 'Book', width: 290 },
-        { field: 'name', headerName: 'Name', width: 100 },
+        { field: 'name', headerName: 'Name', width: 125 },
         { field: 'phoneNumber', headerName: 'Phone', width: 110 },
         { field: 'datetime', headerName: 'Borrowed Time', width: 160 },
     ];
@@ -94,7 +98,7 @@ function DataTable() {
     return (
         <>
             <Navbar />
-            <div style={{ height: 600, width: '63%' }}>
+            <div style={{ height: 600, width: '65%' }}>
             <DataGrid
                     rows={rows}
                     columns={columns}
@@ -110,7 +114,7 @@ function DataTable() {
                         setSelectedRows(newSelectionModel);
                     }}
                 />
-                <button onClick={handleDelete}>Delete Selected</button>
+                <button onClick={handleDelete}>Mark as returned</button>
             </div>
         </>
     );

@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { checkAndRemoveExpiredToken } from "../../server/tokenService.js";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function PopupForm({ bookName, setpopup }) {
     const [name, setName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
-    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     function isLoggedIn() {
@@ -25,7 +26,7 @@ function PopupForm({ bookName, setpopup }) {
     const handleChange = async (event) => {
         event.preventDefault();
         if (!name || !phoneNumber) {
-            setError('All fields are required');
+            toast.warning('All fields are required');
             return;
         }
         try {
@@ -41,11 +42,11 @@ function PopupForm({ bookName, setpopup }) {
                 })
             });
             const data = await response.json();
-            alert(data.message);
+            toast.success(data.message);
             setpopup(false);
         } catch (error) {
             console.error('Error allocating book:', error);
-            setError('An error occurred. Please try again.');
+            toast.error('An error occurred. Please try again.');
         }
     };
 
@@ -74,7 +75,6 @@ function PopupForm({ bookName, setpopup }) {
                             onChange={(event) => setPhoneNumber(event.target.value)}
                         />
                     </label><br />
-                    {error && <div className="text-red-500">{error}</div>}
                     <button 
                         type="submit" 
                         className="ml-20 border border-black flex items-center"
