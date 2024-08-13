@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { checkAndRemoveExpiredToken } from "../../server/tokenService.js";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Lottie from 'react-lottie';
+import animationData from '../assets/spinnerlottie.json';
 
 function Addbook() {
     const [bookname, setBookname] = useState('');
@@ -11,6 +13,7 @@ function Addbook() {
     const [available, setAvailable] = useState('');
     const [publicationyear, setPublicationyear] = useState('');
     const [image, setImage] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -50,6 +53,7 @@ function Addbook() {
         formData.append('publicationyear', publicationyear);
 
         try {
+            setLoading(true);
             const response = await fetch('http://localhost:3000/add-book', {
                 method: 'POST',
                 body: formData,
@@ -57,6 +61,7 @@ function Addbook() {
 
             const data = await response.json();
             toast.success('New Book uploaded successfully');
+            setLoading(false);
             setBookname('');
             setAuthor('');
             setAvailable('');
@@ -64,6 +69,7 @@ function Addbook() {
             setImage(null);
         } catch (error) {
             console.error("Error adding book:", error);
+            setLoading(false);
             toast.error('Failed to add book. Please try again.');
         }
     };
@@ -72,59 +78,72 @@ function Addbook() {
         setImage(e.target.files[0]);
     };
 
+    const defaultOptions = {
+        loop: true,
+        autoplay: true, 
+        animationData: animationData,
+        rendererSettings: {
+          preserveAspectRatio: 'xMidYMid slice'
+        }
+    };
+    
     return (
         <div>
-            <Navbar />
-            <form onSubmit={handleChange}>
-                <h1>Add a Book</h1>
-                <label>
-                    Book Name:
-                    <input 
-                        type="text" 
-                        placeholder="name of the book" 
+            {loading && <Lottie options={defaultOptions} height={400} width={400}/>}
+            {!loading &&
+            <div>
+                <Navbar />
+                <form onSubmit={handleChange}>
+                    <h1>Add a Book</h1>
+                    <label>
+                        Book Name:
+                        <input 
+                            type="text" 
+                            placeholder="name of the book" 
+                            className="border border-black rounded"
+                            onChange={(event) => setBookname(event.target.value)} 
+                            value={bookname}
+                        />
+                    </label><br />
+                    <label>
+                        No of books available:
+                        <input 
+                            type="number" 
+                            placeholder="no of books available" 
+                            className="border border-black rounded"
+                            onChange={(event) => setAvailable(event.target.value)} 
+                            value={available}
+                        />
+                    </label><br />
+                    <label>
+                        Author:
+                        <input 
+                            type="text" 
+                            placeholder="enter the author name" 
+                            className="border border-black rounded"
+                            onChange={(event) => setAuthor(event.target.value)} 
+                            value={author}
+                        />
+                    </label><br />
+                    <label>
+                        Publication Year:
+                        <input 
+                            type="number" 
+                            placeholder="publication year" 
+                            className="border border-black rounded"
+                            onChange={(event) => setPublicationyear(event.target.value)} 
+                            value={publicationyear}
+                        />
+                    </label><br />
+                    <input type="file" onChange={handleImageChange} required />
+                    <button 
+                        type="submit"
                         className="border border-black rounded"
-                        onChange={(event) => setBookname(event.target.value)} 
-                        value={bookname}
-                    />
-                </label><br />
-                <label>
-                    No of books available:
-                    <input 
-                        type="number" 
-                        placeholder="no of books available" 
-                        className="border border-black rounded"
-                        onChange={(event) => setAvailable(event.target.value)} 
-                        value={available}
-                    />
-                </label><br />
-                <label>
-                    Author:
-                    <input 
-                        type="text" 
-                        placeholder="enter the author name" 
-                        className="border border-black rounded"
-                        onChange={(event) => setAuthor(event.target.value)} 
-                        value={author}
-                    />
-                </label><br />
-                <label>
-                    Publication Year:
-                    <input 
-                        type="number" 
-                        placeholder="publication year" 
-                        className="border border-black rounded"
-                        onChange={(event) => setPublicationyear(event.target.value)} 
-                        value={publicationyear}
-                    />
-                </label><br />
-                <input type="file" onChange={handleImageChange} required />
-                <button 
-                    type="submit"
-                    className="border border-black rounded"
-                >
-                    Add Book
-                </button>
-            </form>
+                    >
+                        Add Book
+                    </button>
+                </form>
+            </div>}
         </div>
     );
 }
