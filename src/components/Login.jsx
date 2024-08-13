@@ -8,11 +8,13 @@ import 'react-toastify/dist/ReactToastify.css';
 function Login(){
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [loading,setLoading] = useState(false);
     const navigate =useNavigate();
 
     async function handleSubmit(event){
         event.preventDefault();
         try{
+            setLoading(true);
             const response = await fetch('http://localhost:3000/', {
                 method:"POST",
                 headers:{
@@ -25,6 +27,7 @@ function Login(){
             })
             const data = await response.json();
             if(response.ok){
+                setLoading(false);
                 console.log('Logged In Successfully');
                 setUsername('');
                 setPassword('');
@@ -34,13 +37,15 @@ function Login(){
                 }
             }
             else{
+                setLoading(false);
                 setUsername('');
                 setPassword('');
                 toast.error(data.message);
             }
         }catch(e){
-            // console.error('Error:', e.message);
             console.log(e.message);
+            setLoading(false);
+            toast.error('Something went wrong. Please try again');
             setUsername('');
             setPassword('');
         }
@@ -55,17 +60,21 @@ function Login(){
     };
     return <div>
         
-        <Lottie options={defaultOptions} height={400} width={400}/>
+        {loading && <Lottie options={defaultOptions} height={400} width={400}/>}
         
-        <h3>Enter Username:</h3>
-        <input type="text" placeholder="username" autoComplete="off" value={username} onChange={(event)=>{
-            setUsername(event.target.value);
-        }}></input><br/><br/>
-        <h3>Enter Password:</h3>
-        <input type="password" placeholder="password" value={password} onChange={(event)=>{
-            setPassword(event.target.value);
-        }}></input><br/><br/>
-        <button onClick={handleSubmit}>Login</button>
+        {!loading && 
+        <div>
+            <h3>Enter Username:</h3>
+            <input type="text" placeholder="username" autoComplete="off" value={username} onChange={(event)=>{
+                setUsername(event.target.value);
+            }}></input><br/><br/>
+            <h3>Enter Password:</h3>
+            <input type="password" placeholder="password" value={password} onChange={(event)=>{
+                setPassword(event.target.value);
+            }}></input><br/><br/>
+            <button onClick={handleSubmit}>Login</button>
+        </div>
+        }
     </div>
 }
 export default Login;

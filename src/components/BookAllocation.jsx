@@ -6,10 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import { checkAndRemoveExpiredToken } from '../../server/tokenService.js';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Lottie from 'react-lottie';
+import animationData from '../assets/spinnerlottie.json';
 
 function DataTable() {
     const [bookDetails, setBookdetails] = useState([]);
     const [selectedRows, setSelectedRows] = useState([]);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     function isLoggedIn() {
@@ -29,6 +32,7 @@ function DataTable() {
 
     async function get_allocation() {
         try {
+            setLoading(true);
             const response = await fetch('http://localhost:3000/book-allocation', {
                 method: 'GET',
                 headers: {
@@ -37,15 +41,18 @@ function DataTable() {
             });
             const data = await response.json();
             setBookdetails(data);
+            setLoading(false);
             console.log('Fetched book details:', data);
         } catch (err) {
             console.error('Error fetching book allocation', err);
             toast.error('Failed to fetch updated book details');
+            setLoading(false);
         }
     }
 
     const handleDelete = async () => {
         try {
+            setLoading(true);
             console.log('Selected rows:', selectedRows);
             if (selectedRows.length === 0) {
                 toast.warning('No rows selected');
@@ -70,11 +77,13 @@ function DataTable() {
             });
 
             await Promise.all(deleteRequests);
+            setLoading(false);
             toast.success('Book returned successfully');
             get_allocation();
             setSelectedRows([]);
         } catch (err) {
             console.error('Error:', err);
+            setLoading(false);
             toast.error('Some error occurred. Please try again');
         }
     };
@@ -95,27 +104,40 @@ function DataTable() {
         datetime: item.borrowedDateTime,
     }));
 
+    const defaultOptions = {
+        loop: true,
+        autoplay: true, 
+        animationData: animationData,
+        rendererSettings: {
+          preserveAspectRatio: 'xMidYMid slice'
+        }
+    };
+
     return (
         <>
-            <Navbar />
-            <div style={{ height: 600, width: '65%' }}>
-            <DataGrid
-                    rows={rows}
-                    columns={columns}
-                    initialState={{
-                        pagination: {
-                            paginationModel: { pageSize: 10, page: 0 },
-                        },
-                    }}
-                    pageSizeOptions={[5, 10]}
-                    checkboxSelection
-                    rowSelectionModel={selectedRows}
-                    onRowSelectionModelChange={(newSelectionModel) => {
-                        setSelectedRows(newSelectionModel);
-                    }}
-                />
-                <button onClick={handleDelete}>Mark as returned</button>
-            </div>
+        {loading && <Lottie options={defaultOptions} height={400} width={400}/>}
+        {!loading && 
+            <div>
+                <Navbar />
+                <div style={{ height: 600, width: '65%' }}>
+                <DataGrid
+                        rows={rows}
+                        columns={columns}
+                        initialState={{
+                            pagination: {
+                                paginationModel: { pageSize: 10, page: 0 },
+                            },
+                        }}
+                        pageSizeOptions={[5, 10]}
+                        checkboxSelection
+                        rowSelectionModel={selectedRows}
+                        onRowSelectionModelChange={(newSelectionModel) => {
+                            setSelectedRows(newSelectionModel);
+                        }}
+                    />
+                    <button onClick={handleDelete}>Mark as returned</button>
+                </div>
+            </div>}
         </>
     );
 }
