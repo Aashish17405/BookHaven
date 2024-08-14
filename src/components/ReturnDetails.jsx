@@ -52,11 +52,11 @@ function ReturnDetails() {
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 220 },
-        { field: 'book', headerName: 'Book', width: 290 },
-        { field: 'name', headerName: 'Name', width: 128 },
-        { field: 'phoneNumber', headerName: 'Phone', width: 110 },
-        { field: 'Bdatetime', headerName: 'Borrowed Time', width: 160 },
-        { field: 'Rdatetime', headerName: 'Returned Time', width: 160 },
+        { field: 'book', headerName: 'Book', width: 320 },
+        { field: 'name', headerName: 'Name', width: 190 },
+        { field: 'phoneNumber', headerName: 'Phone', width: 150 },
+        { field: 'Bdatetime', headerName: 'Borrowed Time', width: 200 },
+        { field: 'Rdatetime', headerName: 'Returned Time', width: 190 },
     ];
     
     const rows = bookDetails.map((item,index) => ({
@@ -78,24 +78,33 @@ function ReturnDetails() {
     };
 
     return (
-        <div>
-            {loading && <Lottie options={defaultOptions} height={400} width={400}/>}
-            {!loading && 
-            <div>
-                <Navbar />
-                <div style={{ height: 600, width: '72%' }}>
-                <DataGrid
-                        rows={rows}
-                        columns={columns}
-                        initialState={{
-                            pagination: {
-                                paginationModel: { pageSize: 10, page: 0 },
-                            },
-                        }}
-                        pageSizeOptions={[5, 10]}
-                    />
-                </div>
-            </div>}
+        <div className='bg-gray-50 min-h-screen flex flex-col'>
+            {loading && <Lottie options={defaultOptions} height={400} width={400} />}
+            {!loading && (
+                <>
+                    <Navbar />
+                    <div className='flex-1 p-4'>
+                        <div className='w-full mx-auto max-w-7xl overflow-x-auto'>
+                            <div className='text-center mb-4'>
+                                <h1 className='text-xl font-bold pt-14'>Return Details</h1>
+                            </div>
+                            <div className='bg-white rounded-lg shadow-md'>
+                                <DataGrid
+                                    rows={rows}
+                                    columns={columns}
+                                    initialState={{
+                                        pagination: {
+                                            paginationModel: { pageSize: 10, page: 0 },
+                                        },
+                                    }}
+                                    pageSizeOptions={[5, 10]}
+                                    className='min-w-full'
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 }

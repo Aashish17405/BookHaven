@@ -89,14 +89,14 @@ function DataTable() {
     };
 
     const columns = [
-        { field: 'id', headerName: 'ID', width: 220 },
-        { field: 'book', headerName: 'Book', width: 290 },
-        { field: 'name', headerName: 'Name', width: 125 },
-        { field: 'phoneNumber', headerName: 'Phone', width: 110 },
-        { field: 'datetime', headerName: 'Borrowed Time', width: 160 },
+        { field: 'id', headerName: 'ID', width: 230 },
+        { field: 'book', headerName: 'Book', width: 310 },
+        { field: 'name', headerName: 'Name', width: 200 },
+        { field: 'phoneNumber', headerName: 'Phone', width: 160 },
+        { field: 'datetime', headerName: 'Borrowed Time', width: 200 },
     ];
-    
-    const rows = bookDetails.map((item,index) => ({
+
+    const rows = bookDetails.map((item, index) => ({
         id: item._id,
         book: item.book,
         name: item.name,
@@ -106,39 +106,55 @@ function DataTable() {
 
     const defaultOptions = {
         loop: true,
-        autoplay: true, 
+        autoplay: true,
         animationData: animationData,
         rendererSettings: {
-          preserveAspectRatio: 'xMidYMid slice'
+            preserveAspectRatio: 'xMidYMid slice'
         }
     };
 
     return (
-        <>
-        {loading && <Lottie options={defaultOptions} height={400} width={400}/>}
-        {!loading && 
-            <div>
-                <Navbar />
-                <div style={{ height: 600, width: '65%' }}>
-                <DataGrid
-                        rows={rows}
-                        columns={columns}
-                        initialState={{
-                            pagination: {
-                                paginationModel: { pageSize: 10, page: 0 },
-                            },
-                        }}
-                        pageSizeOptions={[5, 10]}
-                        checkboxSelection
-                        rowSelectionModel={selectedRows}
-                        onRowSelectionModelChange={(newSelectionModel) => {
-                            setSelectedRows(newSelectionModel);
-                        }}
-                    />
-                    <button onClick={handleDelete}>Mark as returned</button>
-                </div>
-            </div>}
-        </>
+        <div className='bg-gray-50 min-h-screen flex flex-col'>
+            {loading && <Lottie options={defaultOptions} height={400} width={400} />}
+            {!loading && (
+                <>
+                    <Navbar />
+                    <div className='flex-1 p-4'>
+                        <div className='w-full max-w-6xl mx-auto overflow-x-auto'>
+                            <div className='text-center mb-4'>
+                                <h1 className='text-xl font-bold pt-14'>Book Allocation</h1>
+                            </div>
+                            <div className='bg-white rounded-lg shadow-md'>
+                                <DataGrid
+                                    rows={rows}
+                                    columns={columns}
+                                    initialState={{
+                                        pagination: {
+                                            paginationModel: { pageSize: 10, page: 0 },
+                                        },
+                                    }}
+                                    pageSizeOptions={[5, 10]}
+                                    checkboxSelection
+                                    rowSelectionModel={selectedRows}
+                                    onRowSelectionModelChange={(newSelectionModel) => {
+                                        setSelectedRows(newSelectionModel);
+                                    }}
+                                    className='min-w-full'
+                                />
+                            </div>
+                            <div className='mt-4 text-center'>
+                                <button
+                                    onClick={handleDelete}
+                                    className='px-4 py-2 bg-sky-600 text-white rounded hover:bg-sky-700'
+                                >
+                                    Mark as Returned
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
+        </div>
     );
 }
 

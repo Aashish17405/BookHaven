@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Lottie from 'react-lottie';
 import animationData from '../assets/spinnerlottie.json';
+import register from '../assets/register.png';
 
 function Register() {
     const [username, setUsername] = useState('');
@@ -83,37 +84,52 @@ function Register() {
     };
 
     return (
-        <div>
+        <div className='bg-gray-50'>
             {loading && <Lottie options={defaultOptions} height={400} width={400}/>}
             {!loading && <div>
-                <Navbar/>
-                <form onSubmit={handleSubmit}>
-                    <label>Username</label>
-                    <input
-                        type="text"
-                        placeholder="username"
-                        className="border-black border"
-                        value={username}
-                        onChange={(event) => setUsername(event.target.value)}
-                    /><br />
-                    <label>Password</label>
-                    <input
-                        type="password"
-                        placeholder="password"
-                        className="border border-black"
-                        value={password}
-                        onChange={(event) => setPassword(event.target.value)}
-                    /><br />
-                    <label>Confirm Password</label>
-                    <input
-                        type="password"
-                        placeholder="confirm password"
-                        className="border border-black"
-                        value={confirmPassword}
-                        onChange={(event) => setConfirmPassword(event.target.value)}
-                    /><br />
-                    <button type="submit" className="border border-black rounded p-1">Register</button>
-                </form>
+                <Navbar />
+                <div className='flex justify-center h-screen items-center '>
+                <div className='flex p-6 rounded-xl shadow-xl bg-white'>
+                    <h1 className='absolute top-34 left-1/2 transform -translate-x-1/2 text-3xl font-bold text-center w-full'> BOOK HAVEN </h1>
+                    <div className='p-10 rounded mt-6'>
+                        <form onSubmit={handleSubmit}>
+                            <h2 className='ml-1 text-lg font-medium'>Register</h2>
+                            <h3 className='p-2 mt-2 pl-1'>Enter Username</h3>
+                            <input
+                                type="text"
+                                placeholder="username"
+                                className='p-2 w-64 rounded border-2 focus:outline-none focus:border-1 focus:ring focus:ring-sky-500 focus:ring-1 focus:shadow-xl'
+                                value={username}
+                                onChange={(event) => setUsername(event.target.value)}
+                            /><br />
+                            <h3 className='p-2 pl-1'>Enter Password</h3>
+                            <input
+                                type="password"
+                                placeholder="password"
+                                className='p-2 w-64 rounded border-2 focus:outline-none focus:border-1 focus:ring focus:ring-sky-500 focus:ring-1 focus:shadow-xl'
+                                value={password}
+                                onChange={(event) => setPassword(event.target.value)}
+                            /><br />
+                            <h3 className='p-2 pl-1'>Confirm Password</h3>
+                            <input
+                                type="password"
+                                placeholder="confirm password"
+                                className='p-2 w-64 rounded border-2 focus:outline-none focus:border-1 focus:ring focus:ring-sky-500 focus:ring-1 focus:shadow-xl'
+                                value={confirmPassword}
+                                onChange={(event) => setConfirmPassword(event.target.value)}
+                            /><br />
+                            <button type="submit" className='p-2 text-base rounded bg-sky-600 text-white mt-8 ml-8 px-16 hover:bg-sky-700'>Register</button>
+                        </form>
+                    </div>
+                    <div className='rounded'>
+                    <img 
+                        src={register} 
+                        alt='register image' 
+                        className='hidden sm:block rounded mt-10 pb-6' 
+                        width={400}/>
+                    </div>
+                </div>
+                </div>
             </div>}
         </div>
     );
