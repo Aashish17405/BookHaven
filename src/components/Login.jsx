@@ -44,7 +44,6 @@ function Login(){
             const data = await response.json();
             if(response.ok){
                 setLoading(false);
-                console.log('Logged In Successfully');
                 setUsername('');
                 setPassword('');
                 if(data.token){
@@ -73,7 +72,7 @@ function Login(){
         rendererSettings: {
           preserveAspectRatio: 'xMidYMid slice'
         }
-    };
+    };  
     return <div className='bg-gray-50'>
         
         {loading && <Lottie options={defaultOptions} height={400} width={400}/>}

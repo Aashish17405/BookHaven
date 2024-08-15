@@ -93,7 +93,7 @@ function Register() {
                     <h1 className='absolute top-34 left-1/2 transform -translate-x-1/2 text-3xl font-bold text-center w-full'> BOOK HAVEN </h1>
                     <div className='p-10 rounded mt-6'>
                         <form onSubmit={handleSubmit}>
-                            <h2 className='ml-1 text-lg font-medium'>Register</h2>
+                            <h2 className='ml-1 text-lg font-medium'>Register a new user</h2>
                             <h3 className='p-2 mt-2 pl-1'>Enter Username</h3>
                             <input
                                 type="text"

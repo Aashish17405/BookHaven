@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Lottie from 'react-lottie';
 import animationData from '../assets/spinnerlottie.json';
+import addbook from '../assets/addbook.jpg';
 
 function Addbook() {
     const [bookname, setBookname] = useState('');
@@ -88,61 +89,63 @@ function Addbook() {
     };
     
     return (
-        <div>
+        <div className="flex items-center justify-center h-screen bg-gray-50">
             {loading && <Lottie options={defaultOptions} height={400} width={400}/>}
             {!loading &&
             <div>
                 <Navbar />
-                <form onSubmit={handleChange}>
-                    <h1>Add a Book</h1>
-                    <label>
-                        Book Name:
-                        <input 
-                            type="text" 
-                            placeholder="name of the book" 
-                            className="border border-black rounded"
-                            onChange={(event) => setBookname(event.target.value)} 
-                            value={bookname}
-                        />
-                    </label><br />
-                    <label>
-                        No of books available:
-                        <input 
-                            type="number" 
-                            placeholder="no of books available" 
-                            className="border border-black rounded"
-                            onChange={(event) => setAvailable(event.target.value)} 
-                            value={available}
-                        />
-                    </label><br />
-                    <label>
-                        Author:
-                        <input 
-                            type="text" 
-                            placeholder="enter the author name" 
-                            className="border border-black rounded"
-                            onChange={(event) => setAuthor(event.target.value)} 
-                            value={author}
-                        />
-                    </label><br />
-                    <label>
-                        Publication Year:
-                        <input 
-                            type="number" 
-                            placeholder="publication year" 
-                            className="border border-black rounded"
-                            onChange={(event) => setPublicationyear(event.target.value)} 
-                            value={publicationyear}
-                        />
-                    </label><br />
-                    <input type="file" onChange={handleImageChange} required />
-                    <button 
-                        type="submit"
-                        className="border border-black rounded"
-                    >
-                        Add Book
-                    </button>
-                </form>
+                <div className="flex p-8 pr-4 shadow-lg bg-white mt-8 pt-20 rounded-xl">
+                    <h1 className='absolute top-[14rem] sm:top-28 left-1/2 transform -translate-x-1/2 text-3xl font-bold text-center w-full'> BOOK HAVEN </h1>
+                    <div>
+                        <img 
+                            src={addbook} 
+                            alt="Book Addition" 
+                            className="max-w-sm py hidden sm:block" />
+                    </div>
+                    <form onSubmit={handleChange}>
+                        <h1 className='ml-1 text-lg mt-2 font-medium'>Add a Book</h1>
+                        <h3 className='p-2 pl-1 pr-0'>Name of the Boook</h3>
+                            <input 
+                                type="text" 
+                                placeholder="name of the book" 
+                                className='p-2 w-64 rounded border-2 focus:outline-none focus:border-1 focus:ring focus:ring-sky-500 focus:ring-1 focus:shadow-xl'
+                                onChange={(event) => setBookname(event.target.value)} 
+                                value={bookname}
+                            />
+                        <h3 className='p-2 pl-1 pr-0'>Number of books available</h3>
+                            <input 
+                                type="number" 
+                                placeholder="no of books available" 
+                                className='p-2 w-64 rounded border-2 focus:outline-none focus:border-1 focus:ring focus:ring-sky-500 focus:ring-1 focus:shadow-xl'
+                                onChange={(event) => setAvailable(event.target.value)} 
+                                value={available}
+                            />
+                        <h3 className='p-2 pl-1 pr-0'>Author of the book</h3>
+                            <input 
+                                type="text" 
+                                placeholder="enter the author name" 
+                                className='p-2 w-64 rounded border-2 focus:outline-none focus:border-1 focus:ring focus:ring-sky-500 focus:ring-1 focus:shadow-xl'
+                                onChange={(event) => setAuthor(event.target.value)} 
+                                value={author}
+                            />
+                        
+                        <h3 className='p-2 pl-1 pr-0'>Publication Year</h3>
+                            <input 
+                                type="number" 
+                                placeholder="publication year" 
+                                className='p-2 w-64 rounded border-2 focus:outline-none focus:border-1 focus:ring focus:ring-sky-500 focus:ring-1 focus:shadow-xl'
+                                onChange={(event) => setPublicationyear(event.target.value)} 
+                                value={publicationyear}
+                            /><br/>
+                        <input type="file" className="mt-1 p-2 pl-1 pr-0" onChange={handleImageChange} required /><br/>
+                        <button 
+                            type="submit"
+                            className="p-2 text-base rounded bg-sky-600 text-white ml-7 mt-4 px-16 hover:bg-sky-700 font-medium"
+                        >
+                            Add Book
+                        </button>
+                    </form>
+                </div>
             </div>}
         </div>
     );

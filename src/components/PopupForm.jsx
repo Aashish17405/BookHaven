@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Lottie from 'react-lottie';
 import animationData from '../assets/spinnerlottie.json';
+import allocation from '../assets/allocation.jpg';
 
 function PopupForm({ bookName, setpopup }) {
     const [name, setName] = useState('');
@@ -66,35 +67,38 @@ function PopupForm({ bookName, setpopup }) {
     };
 
     return (
-        <div className="flex items-center justify-center h-screen">
+        <div className="flex items-center justify-center h-screen bg-gray-50">
             {loading && <Lottie options={defaultOptions} height={400} width={400}/>}
-            {!loading && <div>
-                <div className="p-2 border border-green-500">
+            {!loading && <div className="flex p-14 shadow-md bg-white rounded">
+                <h1 className='absolute top-[17rem] sm:top-40 left-1/2 transform -translate-x-1/2 text-3xl font-bold text-center w-full'> BOOK HAVEN </h1>
+                <div>
+                    <img 
+                        src={allocation} 
+                        alt="Book Allocation" 
+                        className="max-w-sm py hidden sm:block" />
+                </div>
+                <div className="p-2">
                     <form onSubmit={handleChange}>
-                        <h1 className="ml-10">Book Allocation Form</h1>
-                        <label>
-                            Name:
-                            <input 
+                        <h2 className='ml-1 pt-4 text-lg font-medium'>Book Allocation Form</h2>
+                        <h3 className='p-2 mt-1 pl-1'>Enter Name</h3>
+                        <input 
                                 type="text" 
                                 placeholder="Name" 
                                 autoComplete="off" 
-                                className="border rounded border-black pl-1" 
+                                className='p-2 w-64 rounded border-2 focus:outline-none focus:border-1 focus:ring focus:ring-sky-500 focus:ring-1 focus:shadow-xl'
                                 onChange={(event) => setName(event.target.value)} 
                             />
-                        </label><br />
-                        <label>
-                            Phone:
-                            <input 
+                        <h3 className='p-2 mt-2 pl-1'>Enter Phone number</h3>
+                        <input 
                                 type="tel" 
                                 placeholder="Phone number" 
                                 autoComplete="off" 
-                                className="border rounded border-black pl-1" 
+                                className='p-2 w-64 rounded border-2 focus:outline-none focus:border-1 focus:ring focus:ring-sky-500 focus:ring-1 focus:shadow-xl'
                                 onChange={(event) => setPhoneNumber(event.target.value)}
-                            />
-                        </label><br />
+                            /><br/>
                         <button 
                             type="submit" 
-                            className="ml-20 border border-black flex items-center"
+                            className='p-2 text-base rounded bg-sky-600 text-white mt-8 ml-12 px-12 hover:bg-sky-700' 
                         >
                             Allocate
                         </button>
