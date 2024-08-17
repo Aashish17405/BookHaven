@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const jwt=require("jsonwebtoken");
+const mongoose = require("mongoose");
 const multer = require('multer');
 const { emailSchema,passwordSchema } = require('./zod');
 const { Book,Borrower,Users,Returner } = require('./db');
@@ -17,6 +18,11 @@ app.use(cors());
 app.use(express.json());
 
 const port = process.env.PORT || 3000;
+const mongoURI = process.env.MONGODB_URI;
+
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('MongoDB connected'))
+    .catch(err => console.error('MongoDB connection error:', err));
 
 function jwtSign(req, res, next) {
   const { username, password } = req.body;
