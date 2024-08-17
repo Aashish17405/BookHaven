@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "package.json",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "library management",
   "dependencies": {
     "cors": "^2.8.5",
     "expres": "^0.0.5",
