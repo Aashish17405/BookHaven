@@ -25,7 +25,7 @@ function Book({ imagesrc, bookId, name, publicationYear, author, available, upda
     console.log('Payload being sent:', payload);
     setLoading(true);
 
-    fetch('http://localhost:3000/update-book-availability', {
+    fetch('https://library-management-1-6d7t.onrender.com/update-book-availability', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -56,11 +56,13 @@ function Book({ imagesrc, bookId, name, publicationYear, author, available, upda
 
   return (
     <div className="flex flex-col w-full bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
-      <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
-        {loading && <Lottie options={defaultOptions} height={250} width={250}/>}
-      </div>
+      
+      {loading && <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50">
+        <Lottie options={defaultOptions} height={250} width={250} />
+      </div>}
+      
       {!loading && (
-        <>
+        <div>
           <div className="relative aspect-[3/4] overflow-hidden">
             <img 
               src={imagesrc} 
@@ -84,7 +86,7 @@ function Book({ imagesrc, bookId, name, publicationYear, author, available, upda
             <p className="text-sm text-gray-600 mb-1">{publicationYear}</p>
             <p className="text-sm text-gray-600 truncate">{author}</p>
           </div>
-        </>
+        </div>
       )}
     </div>
   );

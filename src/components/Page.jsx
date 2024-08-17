@@ -34,7 +34,7 @@ function Page() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch('http://localhost:3000/get-books/');
+        const response = await fetch('https://library-management-1-6d7t.onrender.com/get-books');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -96,8 +96,8 @@ function Page() {
       <div className='flex-grow mt-20 px-4 sm:px-8 lg:px-16'>
         
         {loading && (
-          <div className="flex justify-center items-center h-full">
-            <Lottie options={defaultOptions} height={400} width={400}/>
+          <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50">
+            <Lottie options={defaultOptions} height={250} width={250}/>
           </div>
         )}
         {!loading && (

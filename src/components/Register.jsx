@@ -44,7 +44,7 @@ function Register() {
 
         try {
             setLoading(true);
-            const response = await fetch("http://localhost:3000/register", {
+            const response = await fetch("https://library-management-1-6d7t.onrender.com/register", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -86,10 +86,10 @@ function Register() {
     return (
         <div className='bg-gray-50'>
             
-            <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
+            {loading && <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50">
                 <Navbar />
-                {loading && <Lottie options={defaultOptions} height={250} width={250}/>}
-            </div>
+                <Lottie options={defaultOptions} height={250} width={250}/>
+            </div>}
             
             {!loading && <div>
                 <Navbar />

@@ -55,7 +55,7 @@ function Addbook() {
 
         try {
             setLoading(true);
-            const response = await fetch('http://localhost:3000/add-book', {
+            const response = await fetch('https://library-management-1-6d7t.onrender.com/add-book', {
                 method: 'POST',
                 body: formData,
             });
@@ -90,11 +90,10 @@ function Addbook() {
     
     return (
         <div className="flex items-center justify-center h-screen bg-gray-50">
-            
-            <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
+            {loading && <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50">
                 <Navbar />
-                {loading && <Lottie options={defaultOptions} height={250} width={250}/>}
-            </div>
+                <Lottie options={defaultOptions} height={250} width={250}/>
+            </div>}
 
             {!loading &&
             <div>
@@ -107,7 +106,7 @@ function Addbook() {
                             alt="Book Addition" 
                             className="max-w-sm py hidden sm:block" />
                     </div>
-                    <form onSubmit={handleChange}>
+                    <form onSubmit={handleChange} autoComplete="off">
                         <h1 className='ml-1 text-lg mt-2 font-medium'>Add a Book</h1>
                         <h3 className='p-2 pl-1 pr-0'>Name of the Boook</h3>
                             <input 

@@ -31,7 +31,7 @@ function Login(){
         event.preventDefault();
         try{
             setLoading(true);
-            const response = await fetch('http://localhost:3000/', {
+            const response = await fetch('https://library-management-1-6d7t.onrender.com', {
                 method:"POST",
                 headers:{
                     'Content-Type': 'application/json',
@@ -73,51 +73,58 @@ function Login(){
           preserveAspectRatio: 'xMidYMid slice'
         }
     };  
-    return <div className='bg-gray-50'>
-        
-        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
-            {loading && <Lottie options={defaultOptions} height={250} width={250}/>}
-        </div>
-        
-        {!loading && 
-        <div className='flex justify-center h-screen items-center '>
-            <div className='flex p-6 rounded-xl shadow-xl bg-white'>
-                <h1 className='absolute top-[17rem] sm:top-36 left-1/2 transform -translate-x-1/2 text-3xl font-bold text-center w-full'> BOOK HAVEN </h1>
-                <div className='p-10 rounded mt-12'>
-                    <h2 className='ml-1 text-lg font-medium'>Enter your login credentials</h2>
-                    <h3 className='p-2 mt-4 pl-1'>Enter Username</h3>
-                    <input 
-                        className='p-2 w-64 rounded border-2 focus:outline-none focus:border-1 focus:ring focus:ring-sky-500 focus:ring-1 focus:shadow-xl' 
-                        type="text" 
-                        placeholder="username" 
-                        autoComplete="off" 
-                        value={username} 
-                        onChange={(event)=>{
-                        setUsername(event.target.value);
-                    }}></input>
+    return (
+        <div className='bg-gray-50 relative'>
+            
+            {loading && (
+                <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50">
+                    <Lottie options={defaultOptions} height={250} width={250} />
+                </div>
+            )}
 
-                    <h3 className='p-2 pl-1 mt-2'>Enter Password</h3>
-                    <input 
-                        className='p-2 w-64 rounded border-2 focus:outline-none focus:border-1 focus:ring focus:ring-sky-500 focus:ring-1 focus:shadow-xl' type="password" 
-                        placeholder="password" 
-                        value={password} 
-                        onChange={(event)=>{
-                        setPassword(event.target.value);
-                    }}></input><br/><br/>
-                    <button 
-                        className='p-2 text-base rounded bg-sky-600 text-white mt-2 ml-10 px-16 hover:bg-sky-700' 
-                        onClick={handleSubmit}>Login</button>
+            {!loading && (
+                <div className='flex justify-center h-screen items-center'>
+                    <div className='flex p-6 rounded-xl shadow-xl bg-white relative'>
+                        <h1 className='absolute top-[3rem] sm:top-10 left-1/2 transform -translate-x-1/2 text-3xl font-bold text-center w-full'> BOOK HAVEN </h1>
+                        <div className='p-10 rounded mt-12'>
+                            <h2 className='ml-1 text-lg font-medium'>Enter your login credentials</h2>
+                            <h3 className='p-2 mt-4 pl-1'>Enter Username</h3>
+                            <input
+                                className='p-2 w-64 rounded border-2 focus:outline-none focus:border-1 focus:ring focus:ring-sky-500 focus:ring-1 focus:shadow-xl'
+                                type="text"
+                                placeholder="username"
+                                autoComplete="off"
+                                value={username}
+                                onChange={(event) => setUsername(event.target.value)}
+                            />
+
+                            <h3 className='p-2 pl-1 mt-2'>Enter Password</h3>
+                            <input
+                                className='p-2 w-64 rounded border-2 focus:outline-none focus:border-1 focus:ring focus:ring-sky-500 focus:ring-1 focus:shadow-xl'
+                                type="password"
+                                placeholder="password"
+                                value={password}
+                                onChange={(event) => setPassword(event.target.value)}
+                            /><br /><br />
+                            <button
+                                className='p-2 text-base rounded bg-sky-600 text-white mt-2 ml-10 px-16 hover:bg-sky-700'
+                                onClick={handleSubmit}
+                            >
+                                Login
+                            </button>
+                        </div>
+                        <div className='sm:rounded'>
+                            <img
+                                src={login}
+                                alt='login image'
+                                className='hidden sm:block rounded mt-12'
+                                width={400}
+                            />
+                        </div>
+                    </div>
                 </div>
-                <div className='sm:rounded'>
-                    <img 
-                        src={login} 
-                        alt='login image' 
-                        className='hidden sm:block rounded mt-12' 
-                        width={400}/>
-                </div>
-            </div>
+            )}
         </div>
-        }
-    </div>
+    );
 }
 export default Login;
