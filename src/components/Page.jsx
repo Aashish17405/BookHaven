@@ -7,12 +7,15 @@ import { checkAndRemoveExpiredToken } from "../../server/tokenService.js";
 import { toast } from 'react-toastify';
 import Lottie from 'react-lottie';
 import animationData from '../assets/spinnerlottie.json';
+import SearchBar from './SearchBar.jsx';
+import searchanimation from '../assets/searchanimation.json';
 
 function Page() {
   const [books, setBooks] = useState([]);
   const [bookName, setBookName] = useState('');
   const [showPopup, setShowPopup] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const navigate = useNavigate();
 
@@ -54,7 +57,7 @@ function Page() {
 
   const handleIconClick = (name) => {
     setBookName(name);
-    setShowPopup(true); // Show the popup only if we are allocating a book
+    setShowPopup(true);
   };
 
   const updateAvailability = (bookId, newAvailable) => {
@@ -73,26 +76,65 @@ function Page() {
     }
   };
 
+  const searchAnimationOptions = {
+    loop: true,
+    autoplay: true, 
+    animationData: searchanimation,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice'
+    }
+  };
+
+  const filteredBooks = books.filter(book =>
+    book.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    book.author.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
-    <div>
-      {loading && <Lottie options={defaultOptions} height={400} width={400}/>}
-      {!loading && <div>
-        <Navbar />
-        {showPopup && <PopupForm bookName={bookName} setpopup={setpopup} />}
-        {!showPopup && books.map(book => (
-          <Book
-            key={book._id}
-            bookId={book._id}
-            name={book.name}
-            publicationYear={book.publicationYear}
-            author={book.author}
-            available={book.available}
-            imagesrc={book.img}
-            updateAvailability={updateAvailability}
-            handleIconClick={handleIconClick}
-          />
-        ))}
-        </div>}
+    <div className='flex flex-col min-h-screen'>
+      <Navbar />
+      <div className='flex-grow mt-20 px-4 sm:px-8 lg:px-16'>
+        
+        {loading && (
+          <div className="flex justify-center items-center h-full">
+            <Lottie options={defaultOptions} height={400} width={400}/>
+          </div>
+        )}
+        {!loading && (
+          <>
+            {showPopup && <PopupForm bookName={bookName} setpopup={setpopup} />}
+            {!showPopup && (
+              <>
+              <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+                {filteredBooks.length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                    {filteredBooks.map(book => (
+                      <Book
+                        key={book._id}
+                        bookId={book._id}
+                        name={book.name}
+                        publicationYear={book.publicationYear}
+                        author={book.author}
+                        available={book.available}
+                        imagesrc={book.img}
+                        updateAvailability={updateAvailability}
+                        handleIconClick={handleIconClick}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex flex-col justify-center items-center h-64">
+                    <Lottie options={searchAnimationOptions} height={200} width={200}/>
+                    <p className="text-xl text-gray-600 mt-4">
+                      No books found matching your search. Try a different term.
+                    </p>
+                  </div>
+                )}
+              </>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 }

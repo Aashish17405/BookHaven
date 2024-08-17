@@ -12,7 +12,7 @@ import animationData from '../assets/spinnerlottie.json';
 function DataTable() {
     const [bookDetails, setBookdetails] = useState([]);
     const [selectedRows, setSelectedRows] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     function isLoggedIn() {
@@ -115,9 +115,14 @@ function DataTable() {
 
     return (
         <div className='bg-gray-50 min-h-screen flex flex-col'>
-            {loading && <Lottie options={defaultOptions} height={400} width={400} />}
+            
+            <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
+                <Navbar />
+                {loading && <Lottie options={defaultOptions} height={250} width={250}/>}
+            </div>
+
             {!loading && (
-                <>
+                <div>
                     <Navbar />
                     <div className='flex-1 p-4'>
                         <div className='w-full max-w-6xl mx-auto overflow-x-auto'>
@@ -152,7 +157,7 @@ function DataTable() {
                             </div>
                         </div>
                     </div>
-                </>
+                </div>
             )}
         </div>
     );

@@ -75,7 +75,9 @@ function Login(){
     };  
     return <div className='bg-gray-50'>
         
-        {loading && <Lottie options={defaultOptions} height={400} width={400}/>}
+        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
+            {loading && <Lottie options={defaultOptions} height={250} width={250}/>}
+        </div>
         
         {!loading && 
         <div className='flex justify-center h-screen items-center '>

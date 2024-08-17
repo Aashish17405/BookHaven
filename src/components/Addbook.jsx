@@ -90,7 +90,12 @@ function Addbook() {
     
     return (
         <div className="flex items-center justify-center h-screen bg-gray-50">
-            {loading && <Lottie options={defaultOptions} height={400} width={400}/>}
+            
+            <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
+                <Navbar />
+                {loading && <Lottie options={defaultOptions} height={250} width={250}/>}
+            </div>
+
             {!loading &&
             <div>
                 <Navbar />

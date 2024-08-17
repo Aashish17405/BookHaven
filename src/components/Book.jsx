@@ -55,31 +55,37 @@ function Book({ imagesrc, bookId, name, publicationYear, author, available, upda
 };
 
   return (
-    <div className="p-3 w-96 h-50">
-      {loading && <Lottie options={defaultOptions} height={400} width={400}/>}
-      {!loading && 
-      <>
-        <div className="relative w-64 h-64">
-          <img src={imagesrc} className="rounded w-full h-full" alt={name} />
-          <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-500 bg-black bg-opacity-50">
-            <div className="text-white">
-              Available: {available}
+    <div className="flex flex-col w-full bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+      <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
+        {loading && <Lottie options={defaultOptions} height={250} width={250}/>}
+      </div>
+      {!loading && (
+        <>
+          <div className="relative aspect-[3/4] overflow-hidden">
+            <img 
+              src={imagesrc} 
+              className="absolute top-0 left-0 w-full h-full object-cover rounded-t-lg" 
+              alt={name} 
+            />
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-500 bg-black bg-opacity-50">
+              <div className="text-white text-center">
+                <div>Available: {available}</div>
+                <button
+                  className="bg-blue-500 text-white py-2 px-4 m-2 rounded hover:bg-blue-600 transition-colors duration-300"
+                  onClick={() => handleChange(-1)}
+                >
+                  <TiMinus />
+                </button>
+              </div>
             </div>
-            <button
-              className="bg-blue-500 text-white py-2 px-4 m-2 rounded"
-              onClick={() => handleChange(-1)} // Decrease availability and show popup if necessary
-            >
-              <TiMinus />
-            </button>
           </div>
-        </div>
-          <div>
-            {name} ({publicationYear})
+          <div className="p-4 flex-grow">
+            <h3 className="font-bold text-base mb-1 line-clamp-2 h-12">{name}</h3>
+            <p className="text-sm text-gray-600 mb-1">{publicationYear}</p>
+            <p className="text-sm text-gray-600 truncate">{author}</p>
           </div>
-          <div>
-            Author: {author}
-          </div>
-      </>}
+        </>
+      )}
     </div>
   );
 }

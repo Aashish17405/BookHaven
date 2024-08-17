@@ -68,9 +68,14 @@ function PopupForm({ bookName, setpopup }) {
 
     return (
         <div className="flex items-center justify-center h-screen bg-gray-50">
-            {loading && <Lottie options={defaultOptions} height={400} width={400}/>}
+            
+            <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
+                <Navbar />
+                {loading && <Lottie options={defaultOptions} height={250} width={250}/>}
+            </div>
+            
             {!loading && <div className="flex p-14 shadow-md bg-white rounded">
-                <h1 className='absolute top-[17rem] sm:top-40 left-1/2 transform -translate-x-1/2 text-3xl font-bold text-center w-full'> BOOK HAVEN </h1>
+                <h1 className='absolute top-[22rem] sm:top-40 left-1/2 transform -translate-x-1/2 text-3xl font-bold text-center w-full'> BOOK HAVEN </h1>
                 <div>
                     <img 
                         src={allocation} 
@@ -90,7 +95,7 @@ function PopupForm({ bookName, setpopup }) {
                             />
                         <h3 className='p-2 mt-2 pl-1'>Enter Phone number</h3>
                         <input 
-                                type="tel" 
+                                type="number" 
                                 placeholder="Phone number" 
                                 autoComplete="off" 
                                 className='p-2 w-64 rounded border-2 focus:outline-none focus:border-1 focus:ring focus:ring-sky-500 focus:ring-1 focus:shadow-xl'

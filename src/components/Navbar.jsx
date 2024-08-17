@@ -7,7 +7,7 @@ function Navbar() {
     const navigate = useNavigate();
 
     return (
-        <div className="shadow-xl fixed top-0 left-0 w-full z-50 flex justify-between items-center p-4">
+        <div className="bg-white shadow-lg fixed top-0 left-0 w-full z-50 flex justify-between items-center p-4">
             <button 
                 onClick={() => navigate('/home')}
                 className=" font-medium hover:text-gray-700 hover:ring-2 ring-offset-4 ring-gray-400"
