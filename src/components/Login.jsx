@@ -30,6 +30,10 @@ function Login(){
     async function handleSubmit(event){
         event.preventDefault();
         try{
+            if(!username || !password){
+                toast.error('All fields are required');
+                return;
+            }
             setLoading(true);
             const response = await fetch('https://library-management-1-6d7t.onrender.com', {
                 method:"POST",

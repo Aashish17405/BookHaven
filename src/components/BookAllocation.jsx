@@ -63,7 +63,7 @@ function DataTable() {
                 const rowData = bookDetails.find(row => row._id === rowId);
                 console.log('Deleting row:', rowData);
                 if (rowData) {
-                    await fetch('http://localhost:3000/return-book', {
+                    await fetch('https://library-management-1-6d7t.onrender.com/return-book', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

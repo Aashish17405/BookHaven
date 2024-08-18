@@ -69,13 +69,12 @@ function PopupForm({ bookName, setpopup }) {
     return (
         <div className="flex items-center justify-center h-screen bg-gray-50">
             
-            <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50">
-                <Navbar />
-                {loading && <Lottie options={defaultOptions} height={250} width={250}/>}
-            </div>
+            {loading && <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50">
+                <Lottie options={defaultOptions} height={250} width={250}/>
+            </div>}
             
             {!loading && <div className="flex p-14 shadow-md bg-white rounded">
-                <h1 className='absolute top-[22rem] sm:top-40 left-1/2 transform -translate-x-1/2 text-3xl font-bold text-center w-full'> BOOK HAVEN </h1>
+                <h1 className='absolute top-[22rem] sm:top-60 left-1/2 transform -translate-x-1/2 text-3xl font-bold text-center w-full'> BOOK HAVEN </h1>
                 <div>
                     <img 
                         src={allocation} 
