@@ -9,8 +9,6 @@ import Lottie from 'react-lottie';
 import animationData from '../assets/spinnerlottie.json';
 import SearchBar from './SearchBar.jsx';
 import searchanimation from '../assets/searchanimation.json';
-import Footer from './Footer.jsx';
-
 function Page() {
   const [books, setBooks] = useState([]);
   const [bookName, setBookName] = useState('');
@@ -136,7 +134,6 @@ function Page() {
           </>
         )}
       </div>
-      <Footer/>
     </div>
   );
 }

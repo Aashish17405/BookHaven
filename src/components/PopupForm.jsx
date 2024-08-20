@@ -30,7 +30,11 @@ function PopupForm({ bookName, setpopup }) {
     const handleChange = async (event) => {
         event.preventDefault();
         if (!name || !phoneNumber) {
-            toast.warning('All fields are required');
+            toast.error('All fields are required');
+            return;
+        }
+        if(phoneNumber.length!==10){
+            toast.error('Invalid phone number');
             return;
         }
         try {
