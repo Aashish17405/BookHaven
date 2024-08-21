@@ -116,7 +116,7 @@ function DataTable() {
     return (
         <div className='bg-gray-50 min-h-screen flex flex-col'>
 
-            {loading && <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50">
+            {loading && <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50 my-0">
                 <Navbar />
                 <Lottie options={defaultOptions} height={250} width={250}/>
             </div>}

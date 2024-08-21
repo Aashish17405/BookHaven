@@ -1,18 +1,29 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { removeToken } from "../../server/tokenService";
+import logo from "../assets/logo.png";
 
 function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const navigate = useNavigate();
 
     return (
-        <div className="bg-white shadow-lg fixed top-0 left-0 w-full z-50 flex justify-between items-center p-4">
+        <div className="bg-white shadow fixed top-0 left-0 w-full z-50 flex justify-between items-center p-3">
             <button 
-                onClick={() => navigate('/home')}
-                className=" font-medium hover:text-gray-700 hover:ring-2 ring-offset-4 ring-gray-400"
+                onClick={() => navigate('/home')} className="hover:ring-2 ring-offset-4 ring-gray-400 ml-2 px-4"
             >
-                Home icon
+            <div className="flex items-center">
+                <img 
+                    src={logo} 
+                    alt="logo" 
+                    className="w-10 m-0"
+                    />
+                <span 
+                    className="ml-2"
+                    >Book Haven
+                    </span>
+            </div>
+        
             </button>
             
             <div className="hidden md:flex space-x-4">
