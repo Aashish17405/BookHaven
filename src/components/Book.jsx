@@ -6,7 +6,7 @@ import Lottie from 'react-lottie';
 import animationData from '../assets/spinnerlottie.json';
 import { useState } from 'react';
 
-function Book({ imagesrc, bookId, name, publicationYear, author, available, updateAvailability, handleIconClick }) {
+function Book({ imagesrc, bookId, name, publicationYear, author, available, handleIconClick }) {
   const [loading,setLoading] = useState(false);
   
   const handleChange = (value) => {
@@ -20,29 +20,7 @@ function Book({ imagesrc, bookId, name, publicationYear, author, available, upda
       toast.error('Available count cannot be negative.');
       return;
     }
-
-    const payload = { bookId, available: newAvailable };
-    console.log('Payload being sent:', payload);
-    setLoading(true);
-
-    fetch('https://library-management-1-6d7t.onrender.com/update-book-availability', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Response data:', data);
-        setLoading(false);
-        updateAvailability(bookId, newAvailable); 
-        if (value < 0) {
-          handleIconClick(name);
-        }
-      })
-      .catch(error => console.error('Error updating availability:', error));
-      setLoading(false);
+    handleIconClick(name);
   };
 
   const defaultOptions = {

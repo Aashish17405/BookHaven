@@ -42,7 +42,6 @@ function DataTable() {
             const data = await response.json();
             setBookdetails(data);
             setLoading(false);
-            console.log('Fetched book details:', data);
         } catch (err) {
             console.error('Error fetching book allocation', err);
             toast.error('Failed to fetch updated book details');
@@ -53,7 +52,6 @@ function DataTable() {
     const handleDelete = async () => {
         try {
             setLoading(true);
-            console.log('Selected rows:', selectedRows);
             if (selectedRows.length === 0) {
                 toast.warning('No rows selected');
                 return;
@@ -61,7 +59,6 @@ function DataTable() {
 
             const deleteRequests = selectedRows.map(async (rowId) => {
                 const rowData = bookDetails.find(row => row._id === rowId);
-                console.log('Deleting row:', rowData);
                 if (rowData) {
                     await fetch('https://library-management-1-6d7t.onrender.com/return-book', {
                         method: 'POST',

@@ -15,6 +15,7 @@ function Page() {
   const [showPopup, setShowPopup] = useState(false);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [submit, setSubmitted] = useState(false);
 
   const navigate = useNavigate();
 
@@ -28,30 +29,37 @@ function Page() {
     }
   }
 
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('https://library-management-1-6d7t.onrender.com/get-books');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setBooks(data);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setLoading(false);
+      toast.error('Error fetching data');
+    }
+  };
+
   useEffect(() => {
     isLoggedIn();
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch('https://library-management-1-6d7t.onrender.com/get-books');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        setBooks(data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setLoading(false);
-        toast.error('Error fetching data');
-      }
-    };
-
     fetchData();
-  }, []);
+  }, [submit]);
 
   const setpopup = (show) => {
     setShowPopup(show);
+  }
+
+  const handleSubmit = (submit) => {
+    if (submit) {
+      fetchData();
+    }
+    setSubmitted(submit);
   }
 
   const handleIconClick = (name) => {
@@ -59,13 +67,6 @@ function Page() {
     setShowPopup(true);
   };
 
-  const updateAvailability = (bookId, newAvailable) => {
-    setBooks(prevBooks => 
-      prevBooks.map(book =>
-        book._id === bookId ? { ...book, available: newAvailable } : book
-      )
-    );
-  };
   const defaultOptions = {
     loop: true,
     autoplay: true, 
@@ -101,7 +102,7 @@ function Page() {
         )}
         {!loading && (
           <>
-            {showPopup && <PopupForm bookName={bookName} setpopup={setpopup} />}
+            {showPopup && <PopupForm bookName={bookName} setpopup={setpopup} handleSubmit={handleSubmit} />}
             {!showPopup && (
               <>
               <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
@@ -116,7 +117,6 @@ function Page() {
                         author={book.author}
                         available={book.available}
                         imagesrc={book.img}
-                        updateAvailability={updateAvailability}
                         handleIconClick={handleIconClick}
                       />
                     ))}

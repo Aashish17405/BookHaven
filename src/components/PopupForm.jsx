@@ -7,7 +7,7 @@ import Lottie from 'react-lottie';
 import animationData from '../assets/spinnerlottie.json';
 import allocation from '../assets/allocation.jpg';
 
-function PopupForm({ bookName, setpopup }) {
+function PopupForm({ bookName, setpopup, handleSubmit }) {
     const [name, setName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [loading, setLoading] = useState(false);
@@ -31,10 +31,12 @@ function PopupForm({ bookName, setpopup }) {
         event.preventDefault();
         if (!name || !phoneNumber) {
             toast.error('All fields are required');
+            handleSubmit(false);
             return;
         }
         if(phoneNumber.length!==10){
             toast.error('Invalid phone number');
+            handleSubmit(false);
             return;
         }
         try {
@@ -52,11 +54,13 @@ function PopupForm({ bookName, setpopup }) {
             });
             const data = await response.json();
             setLoading(false);
+            handleSubmit(true);
             toast.success(data.message);
             setpopup(false);
         } catch (error) {
             console.error('Error allocating book:', error);
             setLoading(false);
+            handleSubmit(false);
             toast.error('An error occurred. Please try again.');
         }
     };

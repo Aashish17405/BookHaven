@@ -73,12 +73,6 @@ function Navbar() {
                 {isMenuOpen && (
                     <div className="absolute right-0 mt-2 w-36 bg-white  rounded shadow-lg z-50">
                         <button 
-                            onClick={() => { navigate('/home'); setIsMenuOpen(false); }}
-                            className="block px-4 py-2 hover:bg-gray-300 w-full text-left"
-                        >
-                            Home
-                        </button>
-                        <button 
                             onClick={() => { navigate('/add-book'); setIsMenuOpen(false); }}
                             className="block px-4 py-2 hover:bg-gray-300 w-full text-left"
                         >

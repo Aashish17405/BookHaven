@@ -42,7 +42,6 @@ function ReturnDetails() {
             const data = await response.json();
             setBookdetails(data);
             setLoading(false);
-            console.log('Fetched book details:', data);
         } catch (err) {
             console.error("Error fetching book allocation", err);
             setLoading(false);

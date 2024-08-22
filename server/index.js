@@ -55,7 +55,6 @@ function get_time(){
   }
 
   let time = hours + ':' + minutes + ':' + seconds;
-  console.log(time);
   return time;
 }
 
@@ -66,13 +65,11 @@ function get_date(){
   let yyyy = today.getFullYear();
 
   today = dd + '/' + mm + '/' +  yyyy;
-  console.log(today);
   return today;
 }
 
 app.post('/', jwtSign, async (req, res) => {
   console.log('Received a POST request at /');
-  console.log(req.body);
   const { username, password } = req.body;
   try {
     const user = await Users.findOne({ username });
@@ -96,7 +93,6 @@ app.post('/', jwtSign, async (req, res) => {
 
 app.post('/register', async (req, res) => {
   console.log('Received a POST request at /register');
-  console.log(req.body);
   const { username, password } = req.body;
   
   const usernameResponse = emailSchema.safeParse(username);
@@ -127,31 +123,8 @@ app.get('/get-books', async (req, res) => {
   }
 });
 
-
-app.post('/update-book-availability', async (req, res) => {
-  const { bookId, available } = req.body;
-
-  if (!bookId || available === undefined) {
-    return res.status(400).json({ error: 'Invalid request data' });
-  }
-
-  try {
-    const book = await Book.findByIdAndUpdate(
-      bookId,
-      { available },
-      { new: true, runValidators: true }
-    );
-
-    res.status(200).json(book);
-  } catch (err) {
-    console.error('Error:', err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
 app.post('/add-book', upload.single('image'), async (req, res) => {
   console.log('called /add-book');
-  console.log('Request Body:', req.body);
   try {
     const { bookname, author, available, publicationyear } = req.body;
     if (!req.file) {
@@ -174,7 +147,6 @@ app.post('/add-book', upload.single('image'), async (req, res) => {
 
 app.post('/allocate-book', async (req, res) => {
   console.log('called /allocate-book');
-  console.log('Request Body:', req.body);
   try {
     const { name, phone, bookName } = req.body;
     if (!name || !phone || !bookName) {
@@ -182,6 +154,8 @@ app.post('/allocate-book', async (req, res) => {
     }
     let DateTime = get_time();
     DateTime = DateTime+'-'+get_date();
+    const updatedBook = await Book.findOne({name: bookName});
+    await Book.updateOne({ name: bookName }, { $inc: { available: -1 } });
     const newBorrower = new Borrower({ book:bookName, name, phone, borrowedDateTime:DateTime });
     await newBorrower.save();
     res.status(200).json({ message: 'Successfully allocated the book' });
@@ -204,14 +178,12 @@ app.get('/book-allocation', async (req, res) => {
 
 app.post('/return-book', async (req, res) => {
   console.log('Received a POST request at /return-book');
-  console.log(req.body);
   const { book, name} = req.body;
   try {
     let DateTime = get_time();
     DateTime = DateTime+'-'+get_date();
     const borrower = await Borrower.findOne({ book: book, name: name });
-    const updatedBook = await Book.findOne({name: book});    
-    console.log(updatedBook);
+    const updatedBook = await Book.findOne({name: book});
     await Book.updateOne({ name: book }, { $inc: { available: 1 } });
     const returner = new Returner({ ...borrower.toObject(), returnedDateTime: DateTime });
     await returner.save();

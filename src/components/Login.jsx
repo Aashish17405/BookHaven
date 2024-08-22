@@ -62,7 +62,6 @@ function Login(){
                 toast.error(data.message);
             }
         }catch(e){
-            console.log(e.message);
             setLoading(false);
             toast.error('Something went wrong. Please try again');
             setUsername('');
