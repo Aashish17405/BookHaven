@@ -92,7 +92,7 @@ function Page() {
   return (
     <div className='flex flex-col min-h-screen'>
       <Navbar />
-      <div className='flex-grow mt-20 px-4 sm:px-8 lg:px-16'>
+      <div className='flex-grow mt-20 px-4 sm:px-8 lg:px-16 mb-4'>
         
         {loading && (
           <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50">
