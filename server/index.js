@@ -3,11 +3,13 @@ const express = require('express');
 const cors = require('cors');
 const jwt=require("jsonwebtoken");
 const mongoose = require("mongoose");
+var bcrypt = require('bcryptjs');
 const multer = require('multer');
 const { emailSchema,passwordSchema } = require('./zod');
 const { Book,Borrower,Users,Returner } = require('./db');
 
 const jwtPassword=process.env.JWT_SECRET;
+var salt = bcrypt.genSaltSync(10);
 const expiryTime = 3000;
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -23,21 +25,6 @@ const mongoURI = process.env.MONGODB_URI;
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.error('MongoDB connection error:', err));
-
-function jwtSign(req, res, next) {
-  const { username, password } = req.body;
-
-  const usernameResponse = emailSchema.safeParse(username);
-  const passwordResponse = passwordSchema.safeParse(password);
-
-  if (!usernameResponse.success || !passwordResponse.success) {
-    return res.status(400).json({ message: 'Invalid input' });
-  }
-
-  const token = jwt.sign({ id: usernameResponse.data }, jwtPassword,{expiresIn:expiryTime});
-  res.locals.token = token;
-  next();
-}
 
 function get_time(){
   let now = new Date();
@@ -68,19 +55,34 @@ function get_date(){
   return today;
 }
 
+async function jwtSign(req, res, next) {
+  const { username, password } = req.body;
+  
+  const usernameResponse = emailSchema.safeParse(username);
+  const passwordResponse = passwordSchema.safeParse(password);
+
+  if (!usernameResponse.success || !passwordResponse.success) {
+    return res.status(400).json({ message: 'Invalid input' });
+  }
+
+  const user = await Users.findOne({ username });
+  if (!user) {
+    return res.status(401).json({ message: 'Invalid credentials' });
+  }
+
+  if(!bcrypt.compareSync(password, user.password)){
+    return res.status(401).json({ message: 'Invalid credentials' });
+  }
+
+  const token = jwt.sign({ id: usernameResponse.data }, jwtPassword,{expiresIn:expiryTime});
+  res.locals.token = token;
+  next();
+}
+
 app.post('/', jwtSign, async (req, res) => {
   console.log('Received a POST request at /');
   const { username, password } = req.body;
   try {
-    const user = await Users.findOne({ username });
-    
-    if (!user) {
-      return res.status(401).json({ message: 'Invalid credentials' });
-    }
-    
-    if (user.password !== password) {
-      return res.status(401).json({ message: 'Invalid credentials' });
-    }
     const token = res.locals.token;
     res.json({ token });
     
@@ -94,6 +96,10 @@ app.post('/', jwtSign, async (req, res) => {
 app.post('/register', async (req, res) => {
   console.log('Received a POST request at /register');
   const { username, password } = req.body;
+  const existingUser = await Users.findOne({ username });
+  if(existingUser){
+    return res.status(409).json({ message: 'Username already exists' });
+  }
   
   const usernameResponse = emailSchema.safeParse(username);
   const passwordResponse = passwordSchema.safeParse(password);
@@ -101,8 +107,9 @@ app.post('/register', async (req, res) => {
   if (!usernameResponse.success || !passwordResponse.success) {
     return res.status(401).json({ message: 'Invalid input' });
   }
+  var hashpwd = bcrypt.hashSync(password, salt);
 
-  const user = new Users({ username: req.body.username, password: req.body.password});
+  const user = new Users({ username: req.body.username, password: hashpwd});
   await user.save();
   res.json({ message: "New User created succesfully" });
 });
