@@ -90,8 +90,6 @@ app.post('/', jwtSign, async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
-
-
 app.post('/register', async (req, res) => {
   console.log('Received a POST request at /register');
   const { username, password } = req.body;
@@ -129,6 +127,43 @@ app.get('/get-books', async (req, res) => {
   }
 });
 
+app.post('/allocate-book', async (req, res) => {
+  console.log('called /allocate-book');
+  try {
+    const { name, phone, bookName } = req.body;
+    if (!name || !phone || !bookName) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+    let DateTime = get_time();
+    DateTime = DateTime+'-'+get_date();
+    const updatedBook = await Book.findOne({name: bookName});
+    await Book.updateOne({ name: bookName }, { $inc: { available: -1 } });
+    const newBorrower = new Borrower({ book:bookName, name, phone, borrowedDateTime:DateTime });
+    await newBorrower.save();
+    res.status(200).json({ message: 'Successfully allocated the book' });
+  } catch (err) {
+    console.error('Error:', err);
+    res.status(500).json({ message: 'An error occurred while allocating the book' });
+  }
+});
+
+app.delete('/delete-book', async (req,res) => {
+  console.log('called /delete-book');
+  try{
+    const { bookId } = req.body;
+    const book = Book.findOne({ _id: bookId});
+    if(!book){
+      return res.status(404).json({ message: 'Book not found' });
+    }
+    await book.deleteOne({ _id: bookId});
+    res.status(200).json({ message: 'Book deleted successfully' });
+  }catch (err) {
+    console.error('Error:', err);
+    res.status(500).json({ message: 'An error occurred while deleting the book' });
+  }
+  
+});
+
 app.post('/add-book', upload.single('image'), async (req, res) => {
   console.log('called /add-book');
   try {
@@ -148,26 +183,6 @@ app.post('/add-book', upload.single('image'), async (req, res) => {
   } catch (err) {
     console.error('Error:', err);
     res.status(500).json({ message: 'An error occurred while adding the book' });
-  }
-});
-
-app.post('/allocate-book', async (req, res) => {
-  console.log('called /allocate-book');
-  try {
-    const { name, phone, bookName } = req.body;
-    if (!name || !phone || !bookName) {
-      return res.status(400).json({ message: 'All fields are required' });
-    }
-    let DateTime = get_time();
-    DateTime = DateTime+'-'+get_date();
-    const updatedBook = await Book.findOne({name: bookName});
-    await Book.updateOne({ name: bookName }, { $inc: { available: -1 } });
-    const newBorrower = new Borrower({ book:bookName, name, phone, borrowedDateTime:DateTime });
-    await newBorrower.save();
-    res.status(200).json({ message: 'Successfully allocated the book' });
-  } catch (err) {
-    console.error('Error:', err);
-    res.status(500).json({ message: 'An error occurred while allocating the book' });
   }
 });
 

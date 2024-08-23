@@ -95,7 +95,10 @@ function Register() {
                 <Navbar />
                 <div className='flex justify-center h-screen items-center '>
                 <div className='flex p-6 rounded-xl shadow-xl bg-white'>
-                    <h1 className='absolute top-34 left-1/2 transform -translate-x-1/2 text-3xl font-bold text-center w-full'> BOOK HAVEN </h1>
+                    <h1 className='absolute top-34 left-1/2 transform -translate-x-1/2 text-3xl font-bold text-center w-full'><span className="font-extrabold">R</span>
+                    <span className="font-medium"> E A D </span>
+                    <span className="font-extrabold">R</span>
+                    <span className="font-medium"> I T E</span></h1>
                     <div className='p-10 rounded mt-6'>
                         <form onSubmit={handleSubmit}>
                             <h2 className='ml-1 text-lg font-medium'>Register a new user</h2>

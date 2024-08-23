@@ -10,7 +10,7 @@ function Navbar() {
     return (
         <div className="bg-white shadow fixed top-0 left-0 w-full z-50 flex justify-between items-center p-3">
             <button 
-                onClick={() => navigate('/home')} className="hover:ring-2 ring-offset-4 ring-gray-400 ml-2 px-4"
+                onClick={() => navigate('/home')} className="hover:text-gray-700 hover:ring-2 ring-offset-4 ring-gray-400 ml-2 px-4"
             >
             <div className="flex items-center">
                 <img 
@@ -20,7 +20,7 @@ function Navbar() {
                     />
                 <span 
                     className="ml-2"
-                    >Book Haven
+                    ><span className="font-extrabold">R</span><span className="font-medium"> E A D </span><span className="font-extrabold">R</span><span className="font-medium"> I T E</span>
                     </span>
             </div>
         
@@ -47,8 +47,11 @@ function Navbar() {
                 </button>
                 <button 
                     onClick={() => {
+                        const isConfirmed = window.confirm(`Are you sure you want to logout?`);
+                        if (isConfirmed) {
                         removeToken();
                         window.location.reload();
+                        }
                     }}
                     className=" font-medium hover:text-gray-700 hover:ring-2 ring-offset-4 ring-gray-400"
                 >

@@ -99,7 +99,10 @@ function Addbook() {
             <div>
                 <Navbar />
                 <div className="flex p-8 pr-4 shadow-lg bg-white mt-8 pt-20 rounded-xl">
-                    <h1 className='absolute top-[7rem] sm:top-28 left-1/2 transform -translate-x-1/2 text-3xl font-bold text-center w-full'> BOOK HAVEN </h1>
+                    <h1 className='absolute top-[7rem] sm:top-28 left-1/2 transform -translate-x-1/2 text-3xl font-bold text-center w-full'> <span className="font-extrabold">R</span>
+                    <span className="font-medium"> E A D </span>
+                    <span className="font-extrabold">R</span>
+                    <span className="font-medium"> I T E</span></h1>
                     <div>
                         <img 
                             src={addbook} 

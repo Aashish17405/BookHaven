@@ -118,6 +118,7 @@ function Page() {
                         available={book.available}
                         imagesrc={book.img}
                         handleIconClick={handleIconClick}
+                        handleSubmit={handleSubmit}
                       />
                     ))}
                   </div>

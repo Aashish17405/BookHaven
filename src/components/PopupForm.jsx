@@ -82,7 +82,11 @@ function PopupForm({ bookName, setpopup, handleSubmit }) {
             </div>}
             
             {!loading && <div className="flex p-14 shadow-md bg-white rounded">
-                <h1 className='absolute top-[22rem] sm:top-60 left-1/2 transform -translate-x-1/2 text-3xl font-bold text-center w-full'> BOOK HAVEN </h1>
+                <h1 className='absolute top-[22rem] sm:top-60 left-1/2 transform -translate-x-1/2 text-3xl font-bold text-center w-full'> BOOK <span className="font-extrabold">R</span>
+                    <span className="font-medium"> E A D </span>
+                    <span className="font-extrabold">R</span>
+                    <span className="font-medium"> I T E</span>
+                </h1>
                 <div>
                     <img 
                         src={allocation} 
