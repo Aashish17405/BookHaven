@@ -81,7 +81,6 @@ async function jwtSign(req, res, next) {
 
 app.post('/', jwtSign, async (req, res) => {
   console.log('Received a POST request at /');
-  const { username, password } = req.body;
   try {
     const token = res.locals.token;
     res.json({ token });
