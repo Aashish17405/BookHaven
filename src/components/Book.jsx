@@ -28,7 +28,7 @@ function Book({ imagesrc, bookId, name, publicationYear, author, available, hand
     if (isConfirmed) {
       setLoading(true);
       try {
-        const response = await fetch('http://localhost:3000/delete-book', {
+        const response = await fetch('https://library-management-1-6d7t.onrender.com/delete-book', {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
