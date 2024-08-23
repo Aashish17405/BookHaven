@@ -44,7 +44,7 @@ function Register() {
 
         try {
             setLoading(true);
-            const response = await fetch("http://localhost:3000/register", {
+            const response = await fetch("https://library-management-1-6d7t.onrender.com/register", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
