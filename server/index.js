@@ -28,18 +28,25 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 function get_time(){
   let now = new Date();
-  let hours = now.getHours();
-  if(hours<10){
-    hours = '0' + hours;
+  let hours = now.getUTCHours();
+  let minutes = now.getUTCMinutes();
+  let seconds = now.getUTCSeconds();
+  // Convert to IST by adding 5 hours and 30 minutes
+  hours += 5;
+  minutes += 30;
+
+  if (minutes >= 60) {
+    minutes -= 60;
+    hours += 1;
   }
-  let minutes = now.getMinutes();
-  if(minutes<10){
-    minutes = '0' + minutes;
+
+  if (hours >= 24) {
+    hours -= 24;
   }
-  let seconds = now.getSeconds();
-  if(seconds<10){
-    seconds = '0' + seconds;
-  }
+
+  if(hours < 10) hours = '0' + hours;
+  if(minutes < 10) minutes = '0' + minutes;
+  if(seconds < 10) seconds = '0' + seconds;
 
   let time = hours + ':' + minutes + ':' + seconds;
   return time;
