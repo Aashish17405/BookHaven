@@ -58,7 +58,7 @@ function ReturnDetails() {
         { field: 'Rdatetime', headerName: 'Returned Time', width: 190 },
     ];
     
-    const rows = bookDetails.map((item,index) => ({
+    const rows = bookDetails.slice().reverse().map((item, index) => ({
         id: item._id,
         book: item.book,
         name: item.name,
