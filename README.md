@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://cdn-icons-png.flaticon.com/512/6295/6295417.png" width="100" />
+  <img src="https://github.com/user-attachments/assets/7b4f16ca-9371-4562-a609-a07f78644afc" width="100" />
 </p>
 <p align="center">
     <h1 align="center">READRITE</h1>
@@ -8,7 +8,6 @@
     <em><a href="https://readrite.netlify.app/">readrite.netlify.app</a></em>
 </p>
 <p align="center">
-	<img src="https://img.shields.io/github/license/Aashish17405/ReadRite?style=flat&color=0080ff" alt="license">
 	<img src="https://img.shields.io/github/last-commit/Aashish17405/ReadRite?style=flat&logo=git&logoColor=white&color=0080ff" alt="last-commit">
 	<img src="https://img.shields.io/github/languages/top/Aashish17405/ReadRite?style=flat&color=0080ff" alt="repo-top-language">
 	<img src="https://img.shields.io/github/languages/count/Aashish17405/ReadRite?style=flat&color=0080ff" alt="repo-language-count">
@@ -44,17 +43,16 @@
 <hr>
 
 ##  Quick Links
-
-> - [ Overview](#-overview)
-> - [ Features](#-features)
-> - [ Repository Structure](#-repository-structure)
-> - [ Getting Started](#-getting-started)
->   - [ Installation](#-installation)
->   - [ Running ReadRite](#-running-ReadRite)
->   - [ Tests](#-tests)
-> - [ Contributing](#-contributing)
-> - [ License](#-license)
-> - [ Acknowledgments](#-acknowledgments)
+> - [ Overview](#overview)
+> - [ Features](#features)
+> - [ Repository Structure](#repository-structure)
+> - [ Getting Started](#getting-started)
+>   - [ Installation](#installation)
+>   - [ Running ReadRite](#running-readrite)
+>   - [ Tests](#tests)
+> - [ Contributing](#contributing)
+> - [ License](#license)
+> - [ Acknowledgments](#acknowledgments)
 
 ---
 
