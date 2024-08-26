@@ -104,6 +104,7 @@ Overall, Read Rite is designed to make library management more efficient and use
 ```sh
 └── ReadRite/
     ├── README.md
+    ├── CONTRIBUTING.md
     ├── index.html
     ├── package-lock.json
     ├── package.json
