@@ -150,6 +150,16 @@ Overall, Read Rite is designed to make library management more efficient and use
     ├── tailwind.config.js
     └── vite.config.js
 ```
+---
+
+## Login Details
+
+To use the app, you can log in with the following credentials:
+
+- **Username:**  readrite@gmail.com
+- **Password:** readriteisthebest
+
+---
 
 ##  Getting Started
 
