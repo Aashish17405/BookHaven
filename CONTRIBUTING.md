@@ -8,7 +8,7 @@ Thank you for considering contributing to **Read Rite**, the library management 
 
 If you encounter any bugs or have suggestions for improvements, please follow these steps:
 
-1. **Check Existing Issues**: Look through the [issue tracker](link-to-issues) to see if your issue has already been reported.
+1. **Check Existing Issues**: Look through the [issue tracker]([link-to-issues](https://github.com/Aashish17405/ReadRite/issues)) to see if your issue has already been reported.
 2. **Create a New Issue**: If the issue hasn't been reported, create a new issue with a clear description of the problem or enhancement. Provide as much detail as possible, including steps to reproduce the issue if applicable.
 
 ### Submitting Code
