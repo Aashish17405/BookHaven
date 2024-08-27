@@ -26,7 +26,6 @@ function Book({ imagesrc, bookId, name, publicationYear, author, available, hand
     const isConfirmed = window.confirm(`Are you sure you want to permanently delete "${name}"?`);
     
     if (isConfirmed) {
-      setLoading(true);
       try {
         const response = await fetch('https://library-management-1-6d7t.onrender.com/delete-book', {
           method: 'DELETE',
@@ -41,11 +40,9 @@ function Book({ imagesrc, bookId, name, publicationYear, author, available, hand
           throw new Error('Error deleting book');
         }
         toast.success('Book deleted successfully');
-        setLoading(false);
         handleSubmit(true);
       } catch (error) {
         toast.error('Error deleting book');
-        setLoading(false);
       }
     }
   }

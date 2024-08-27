@@ -52,13 +52,15 @@ function Addbook() {
         formData.append('author', author);
         formData.append('available', available);
         formData.append('publicationyear', publicationyear);
-        formData.append('authorization',`Bearer ${localStorage.getItem('token')}`);
 
         try {
             setLoading(true);
             const response = await fetch('https://library-management-1-6d7t.onrender.com/add-book', {
                 method: 'POST',
                 body: formData,
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
             });
 
             const data = await response.json();
