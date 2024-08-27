@@ -30,7 +30,7 @@ function ReturnDetails() {
     async function get_allocation() {
         try {
             setLoading(true);
-            const response = await fetch('http://localhost:3001/return-details', {
+            const response = await fetch('https://library-management-1-6d7t.onrender.com/return-details', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
