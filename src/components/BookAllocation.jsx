@@ -37,6 +37,7 @@ function DataTable() {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
+                    'authorization':  `Bearer ${localStorage.getItem('token')}`,
                 }
             });
             const data = await response.json();
@@ -93,7 +94,7 @@ function DataTable() {
         { field: 'datetime', headerName: 'Borrowed Time', width: 200 },
     ];
 
-    const rows = bookDetails.slice().reverse().map((item, index) => ({
+    const rows = (bookDetails || []).slice().reverse().map((item, index) => ({
         id: item._id,
         book: item.book,
         name: item.name,

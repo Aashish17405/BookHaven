@@ -32,7 +32,13 @@ function Page() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const response = await fetch('https://library-management-1-6d7t.onrender.com/get-books');
+      const response = await fetch('https://library-management-1-6d7t.onrender.com/get-books', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization':  `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }

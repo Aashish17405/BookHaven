@@ -32,6 +32,7 @@ function Book({ imagesrc, bookId, name, publicationYear, author, available, hand
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
+            'authorization':  `Bearer ${localStorage.getItem('token')}`,
           },
           body: JSON.stringify({ bookId: id }),
         });

@@ -45,6 +45,7 @@ function PopupForm({ bookName, setpopup, handleSubmit }) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'authorization':  `Bearer ${localStorage.getItem('token')}`,
                 },
                 body: JSON.stringify({
                     bookName: bookName,

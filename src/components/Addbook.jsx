@@ -52,6 +52,7 @@ function Addbook() {
         formData.append('author', author);
         formData.append('available', available);
         formData.append('publicationyear', publicationyear);
+        formData.append('authorization',`Bearer ${localStorage.getItem('token')}`);
 
         try {
             setLoading(true);

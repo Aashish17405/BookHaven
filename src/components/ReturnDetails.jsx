@@ -30,14 +30,17 @@ function ReturnDetails() {
     async function get_allocation() {
         try {
             setLoading(true);
-            const response = await fetch('https://library-management-1-6d7t.onrender.com/return-details', {
+            const response = await fetch('http://localhost:3001/return-details', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
+                    'authorization':  `Bearer ${localStorage.getItem('token')}`,
                 }
             });
             if (!response.ok) {
                 toast.error('Error fetching the detils');
+                setLoading(false);
+                return;
             }
             const data = await response.json();
             setBookdetails(data);
@@ -58,7 +61,7 @@ function ReturnDetails() {
         { field: 'Rdatetime', headerName: 'Returned Time', width: 190 },
     ];
     
-    const rows = bookDetails.slice().reverse().map((item, index) => ({
+    const rows = (bookDetails || []).slice().reverse().map((item, index) => ({
         id: item._id,
         book: item.book,
         name: item.name,
