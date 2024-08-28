@@ -10,7 +10,7 @@ function Navbar() {
     return (
         <div className="bg-white shadow fixed top-0 left-0 w-full z-50 flex justify-between items-center p-3">
             <button 
-                onClick={() => navigate('/home')} className="hover:text-gray-700 hover:ring-2 ring-offset-4 ring-gray-400 ml-2 px-4"
+                onClick={() => navigate('/home')} className="hover:text-gray-700 hover:ring-2 ring-offset-4 ring-gray-400 sm:ml-2 px-4"
             >
             <div className="flex items-center">
                 <img 

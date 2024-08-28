@@ -76,52 +76,67 @@ function PopupForm({ bookName, setpopup, handleSubmit }) {
     };
 
     return (
-        <div className="flex items-center justify-center h-screen bg-gray-50">
-            
-            {loading && <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50">
-                <Lottie options={defaultOptions} height={250} width={250}/>
-            </div>}
-            
-            {!loading && <div className="flex p-14 shadow-md bg-white rounded">
-                <h1 className='absolute top-[22rem] sm:top-60 left-1/2 transform -translate-x-1/2 text-3xl font-bold text-center w-full'> BOOK <span className="font-extrabold">R</span>
-                    <span className="font-medium"> E A D </span>
-                    <span className="font-extrabold">R</span>
-                    <span className="font-medium"> I T E</span>
-                </h1>
-                <div>
-                    <img 
-                        src={allocation} 
-                        alt="Book Allocation" 
-                        className="max-w-sm py hidden sm:block" />
+        <div className="flex items-center justify-center min-h-screen bg-gray-50 p-4">
+            {loading && (
+                <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50">
+                    <Lottie options={defaultOptions} height={250} width={250}/>
                 </div>
-                <div className="p-2">
-                    <form onSubmit={handleChange}>
-                        <h2 className='ml-1 pt-4 text-lg font-medium'>Book Allocation Form</h2>
-                        <h3 className='p-2 mt-1 pl-1'>Enter Name</h3>
-                        <input 
-                                type="text" 
-                                placeholder="Name" 
-                                autoComplete="off" 
-                                className='p-2 w-64 rounded border-2 focus:outline-none focus:border-1 focus:ring focus:ring-sky-500 focus:ring-1 focus:shadow-xl'
-                                onChange={(event) => setName(event.target.value)} 
+            )}
+            
+            {!loading && (
+                <div className="w-full max-w-4xl bg-white rounded-lg shadow-md overflow-hidden">
+                    <h1 className='text-3xl font-bold text-center w-full py-4'>
+                        <span className="font-extrabold">R</span>
+                        <span className="font-medium"> E A D </span>
+                        <span className="font-extrabold">R</span>
+                        <span className="font-medium"> I T E</span>
+                    </h1>
+                    <div className="flex flex-col md:flex-row">
+                        <div className="w-full md:w-1/2">
+                            <img 
+                                src={allocation} 
+                                alt="Book Allocation" 
+                                className="w-full h-full object-cover" 
                             />
-                        <h3 className='p-2 mt-2 pl-1'>Enter Phone number</h3>
-                        <input 
-                                type="number" 
-                                placeholder="Phone number" 
-                                autoComplete="off" 
-                                className='p-2 w-64 rounded border-2 focus:outline-none focus:border-1 focus:ring focus:ring-sky-500 focus:ring-1 focus:shadow-xl'
-                                onChange={(event) => setPhoneNumber(event.target.value)}
-                            /><br/>
-                        <button 
-                            type="submit" 
-                            className='p-2 text-base rounded bg-sky-600 text-white mt-8 ml-12 px-12 hover:bg-sky-700' 
-                        >
-                            Allocate
-                        </button>
-                    </form>
+                        </div>
+                        <div className="w-full md:w-1/2 p-6">
+                            <form onSubmit={handleChange} className="space-y-4">
+                                <h2 className='text-xl font-medium'>Book Allocation Form</h2>
+                                <div>
+                                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">Enter Name</label>
+                                    <input 
+                                        id="name"
+                                        type="text" 
+                                        placeholder="Name" 
+                                        autoComplete="off" 
+                                        className='mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500'
+                                        onChange={(event) => setName(event.target.value)} 
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Enter Phone number</label>
+                                    <input 
+                                        id="phone"
+                                        type="number" 
+                                        placeholder="Phone number" 
+                                        autoComplete="off" 
+                                        className='mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500'
+                                        onChange={(event) => setPhoneNumber(event.target.value)}
+                                    />
+                                </div>
+                                <div>
+                                    <button 
+                                        type="submit" 
+                                        className='w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-sky-600 hover:bg-sky-700 mt-2'
+                                    >
+                                        Allocate
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </div>}
+            )}
         </div>
     );
 }

@@ -85,61 +85,78 @@ function Register() {
     };
 
     return (
-        <div className='bg-gray-50'>
+        <div className='min-h-screen bg-gray-50 flex flex-col'>
+            <Navbar />
             
-            {loading && <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50">
-                <Navbar />
-                <Lottie options={defaultOptions} height={250} width={250}/>
-            </div>}
+            {loading && (
+                <div className="fixed inset-0 flex justify-center items-center z-50 bg-white bg-opacity-75">
+                    <Lottie options={defaultOptions} height={250} width={250}/>
+                </div>
+            )}
             
-            {!loading && <div>
-                <Navbar />
-                <div className='flex justify-center h-screen items-center '>
-                <div className='flex p-6 rounded-xl shadow-xl bg-white'>
-                    <h1 className='absolute top-34 left-1/2 transform -translate-x-1/2 text-3xl font-bold text-center w-full'><span className="font-extrabold">R</span>
-                    <span className="font-medium"> E A D </span>
-                    <span className="font-extrabold">R</span>
-                    <span className="font-medium"> I T E</span></h1>
-                    <div className='p-10 rounded mt-6'>
-                        <form onSubmit={handleSubmit}>
-                            <h2 className='ml-1 text-lg font-medium'>Register a new user</h2>
-                            <h3 className='p-2 mt-2 pl-1'>Enter Username</h3>
-                            <input
-                                type="text"
-                                placeholder="username"
-                                className='p-2 w-64 rounded border-2 focus:outline-none focus:border-1 focus:ring focus:ring-sky-500 focus:ring-1 focus:shadow-xl'
-                                value={username}
-                                onChange={(event) => setUsername(event.target.value)}
-                            /><br />
-                            <h3 className='p-2 pl-1'>Enter Password</h3>
-                            <input
-                                type="password"
-                                placeholder="password"
-                                className='p-2 w-64 rounded border-2 focus:outline-none focus:border-1 focus:ring focus:ring-sky-500 focus:ring-1 focus:shadow-xl'
-                                value={password}
-                                onChange={(event) => setPassword(event.target.value)}
-                            /><br />
-                            <h3 className='p-2 pl-1'>Confirm Password</h3>
-                            <input
-                                type="password"
-                                placeholder="confirm password"
-                                className='p-2 w-64 rounded border-2 focus:outline-none focus:border-1 focus:ring focus:ring-sky-500 focus:ring-1 focus:shadow-xl'
-                                value={confirmPassword}
-                                onChange={(event) => setConfirmPassword(event.target.value)}
-                            /><br />
-                            <button type="submit" className='p-2 text-base rounded bg-sky-600 text-white mt-8 ml-8 px-16 hover:bg-sky-700'>Register</button>
-                        </form>
-                    </div>
-                    <div className='rounded'>
-                    <img 
-                        src={register} 
-                        alt='register image' 
-                        className='hidden sm:block rounded mt-10 pb-6' 
-                        width={400}/>
+            <div className='flex-grow flex justify-center items-center p-4 mt-16'>
+                <div className='w-full max-w-3xl bg-white rounded-xl shadow-xl overflow-hidden'>
+                    <h1 className='text-3xl font-bold text-center w-full py-4 '>
+                        <span className="font-extrabold">R </span>
+                        <span className="font-medium">E A D</span>
+                        <span className="font-extrabold"> R</span>
+                        <span className="font-medium"> I T E</span>
+                    </h1>
+                    <div className='flex flex-col md:flex-row'>
+                        <div className='w-full md:w-1/2 p-6'>
+                            <form onSubmit={handleSubmit} className='space-y-4'>
+                                <h2 className='text-xl font-medium'>Register a new user</h2>
+                                <div>
+                                    <label htmlFor="username" className='block text-sm font-medium text-gray-700'>Enter Username</label>
+                                    <input
+                                        id="username"
+                                        type="text"
+                                        placeholder="Username"
+                                        className='mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500'
+                                        value={username}
+                                        onChange={(event) => setUsername(event.target.value)}
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="password" className='block text-sm font-medium text-gray-700'>Enter Password</label>
+                                    <input
+                                        id="password"
+                                        type="password"
+                                        placeholder="Password"
+                                        className='mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500'
+                                        value={password}
+                                        onChange={(event) => setPassword(event.target.value)}
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="confirmPassword" className='block text-sm font-medium text-gray-700'>Confirm Password</label>
+                                    <input
+                                        id="confirmPassword"
+                                        type="password"
+                                        placeholder="Confirm password"
+                                        className='mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500'
+                                        value={confirmPassword}
+                                        onChange={(event) => setConfirmPassword(event.target.value)}
+                                    />
+                                </div>
+                                <button 
+                                    type="submit" 
+                                    className='w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500'
+                                >
+                                    Register
+                                </button>
+                            </form>
+                        </div>
+                        <div className='hidden md:block w-1/2 p-6'>
+                            <img 
+                                src={register} 
+                                alt='Register' 
+                                className='w-full h-full object-cover rounded-lg shadow-md' 
+                            />
+                        </div>
                     </div>
                 </div>
-                </div>
-            </div>}
+            </div>
         </div>
     );
 }
