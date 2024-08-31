@@ -114,7 +114,6 @@ Overall, Read Rite is designed to make library management more efficient and use
     │   └── favicon.svg
     ├── server
     │   ├── .babelrc
-    │   ├── .env
     │   ├── db.js
     │   ├── index.js
     │   ├── package-lock.json
