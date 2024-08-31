@@ -2,13 +2,11 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const jwt=require("jsonwebtoken");
-const mongoose = require("mongoose");
 var bcrypt = require('bcryptjs');
 const multer = require('multer');
 const { emailSchema,passwordSchema } = require('./zod');
 const { Book,Borrower,Users,Returner } = require('./db');
 
-const jwtPassword=process.env.JWT_SECRET;
 var salt = bcrypt.genSaltSync(10);
 const expiryTime = 3000;
 const storage = multer.memoryStorage();
@@ -20,12 +18,7 @@ app.use(cors());
 app.use(express.json());
 
 const port = process.env.PORT || 3000;
-const mongoURI = process.env.MONGODB_URI;
 const key = process.env.JWT_SECRET;
-
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('MongoDB connected'))
-    .catch(err => console.error('MongoDB connection error:', err));
 
 function get_time(){
   let now = new Date();
@@ -77,6 +70,7 @@ const checkToken = (req, res, next) => {
 
 async function jwtSign(req, res, next) {
   const { username, password } = req.body;
+  console.log(username + ' ' + password);
   
   const usernameResponse = emailSchema.safeParse(username);
   const passwordResponse = passwordSchema.safeParse(password);
@@ -87,6 +81,7 @@ async function jwtSign(req, res, next) {
 
   const user = await Users.findOne({ username });
   if (!user) {
+    console.log('db not connected')
     return res.status(401).json({ message: 'Invalid credentials' });
   }
 
@@ -94,7 +89,7 @@ async function jwtSign(req, res, next) {
     return res.status(401).json({ message: 'Invalid credentials' });
   }
 
-  const token = jwt.sign({ id: usernameResponse.data }, jwtPassword,{expiresIn:expiryTime});
+  const token = jwt.sign({ id: usernameResponse.data }, key,{expiresIn:expiryTime});
   res.locals.token = token;
   next();
 }
