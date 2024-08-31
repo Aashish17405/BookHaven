@@ -48,7 +48,6 @@ function Page() {
     } catch (error) {
       console.error('Error fetching data:', error);
       setLoading(false);
-      toast.error('Error fetching data');
     }
   };
 
